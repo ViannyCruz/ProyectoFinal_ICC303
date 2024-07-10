@@ -158,23 +158,19 @@ public class HelloController implements Initializable {
 
     // PARA CODIGO
     @FXML
-    public void handleMoveImage(int index, int Xpos, int Ypos) {
-        moveImage(index, Xpos, Ypos);
-    }
-
-    public void moveImage(int index, int Xpos, int Ypos) {
+    public void handleMoveCar(int index, int Xpos, int Ypos) {
         if (index >= 0 && index < vehicles.size()) {
-            ImageView selectedImage = vehicles.get(index).getImageView();
-            animateCar(selectedImage, Xpos, Ypos);
+            vehicles.get(index).move(Xpos, Ypos);
         }
     }
 
-    private void animateCar(ImageView carImage, int Xpos, int Ypos) {
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(2), carImage);
-        translateTransition.setToX(carImage.getTranslateX() + Xpos);
-        translateTransition.setToY(carImage.getTranslateY() + Ypos);
-        translateTransition.play();
-    }
+
+//    private void moveCar(Vehicle car, int Xpos, int Ypos) {
+//        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(2), carImage);
+//        translateTransition.setToX(carImage.getTranslateX() + Xpos);
+//        translateTransition.setToY(carImage.getTranslateY() + Ypos);
+//        translateTransition.play();
+//    }
 
 
 

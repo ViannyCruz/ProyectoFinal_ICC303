@@ -2,6 +2,7 @@ package com.example.proyectofinal_icc303;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -34,15 +35,13 @@ public class Vehicle implements Comparable<Vehicle> {
 
     // Métodos getters y setters para x, y e imageView omitidos por brevedad
 
-    public void move() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
-            if (y > -700) {
-                y -= 10;
-                imageView.setLayoutY(y);
-            }
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+    public void move(int X, int Y) {
+
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(2), this.getImageView());
+            translateTransition.setToX(this.getImageView().getTranslateX() + X);
+            translateTransition.setToY(this.getImageView().getTranslateY() + Y);
+            translateTransition.play();
+
     }
 
 

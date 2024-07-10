@@ -23,11 +23,11 @@ public class HelloApplication extends Application {
 
         // Ejemplo
         controller.handleCreateVehicleWest();
-        controller.handleMoveImage(0, 170, 0);
+        controller.handleMoveCar(0, 170, 0);
 
         controller.handleCreateVehicleNorth();
-        controller.handleMoveImage(1, 0, 170);
-        controller.handleMoveImage(1, 0, 670);
+        controller.handleMoveCar(1, 0, 170);
+        controller.handleMoveCar(1, 0, 670);
 
 
     }
