@@ -18,23 +18,21 @@ public class TrafficController {
 
     public void startControl() {
 
-        for(TrafficLight light : trafficLights) {
-            scheduler.scheduleAtFixedRate(light::changeLight, 0, 60, TimeUnit.SECONDS);
-        }
+//        for(TrafficLight light : trafficLights) {
+//            scheduler.scheduleAtFixedRate(light::changeLight, 0, 60, TimeUnit.SECONDS);
+//        }
 
         scheduler.scheduleAtFixedRate(this::manageIntersections,0,1,TimeUnit.SECONDS);
-
-
 
     }
 
     private void manageIntersections() {
         for(Intersection intersection : intersections) {
-            Vehicle nextVehicle = intersection.getNextVehicle();
-            if(nextVehicle != null) {
-                // Logica para gestionar el cruce de vehiculos
-
+            Vehicle vehicle = intersection.getNextVehicle();
+            if(vehicle != null) {
+                vehicle.move();
             }
+
         }
     }
 
