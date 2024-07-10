@@ -11,10 +11,25 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+
+        Scene scene = new Scene(fxmlLoader.load(), 750, 800);
+
+        stage.setTitle("Avance Proyecto");
         stage.setScene(scene);
         stage.show();
+
+        // Obtener el controlador
+        HelloController controller = fxmlLoader.getController();
+
+        // Ejemplo
+        controller.handleCreateVehicleWest();
+        controller.handleMoveImage(0, 170, 0);
+
+        controller.handleCreateVehicleNorth();
+        controller.handleMoveImage(1, 0, 170);
+        controller.handleMoveImage(1, 0, 670);
+
+
     }
 
     public static void main(String[] args) {

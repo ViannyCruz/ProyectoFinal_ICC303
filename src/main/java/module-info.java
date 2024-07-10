@@ -1,4 +1,4 @@
-module com.example.proyectofinal_icc303 {
+module com.example.proyectofinal  {
     requires javafx.controls;
     requires javafx.fxml;
 
