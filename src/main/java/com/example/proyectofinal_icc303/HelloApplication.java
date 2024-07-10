@@ -21,14 +21,45 @@ public class HelloApplication extends Application {
         // Obtener el controlador
         HelloController controller = fxmlLoader.getController();
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // Ejemplo
+        /*
         controller.handleCreateVehicleWest();
         controller.handleMoveCar(0, 170, 0);
 
         controller.handleCreateVehicleNorth();
         controller.handleMoveCar(1, 0, 170);
         controller.handleMoveCar(1, 0, 670);
-
+        */
 
     }
 
