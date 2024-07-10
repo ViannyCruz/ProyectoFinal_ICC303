@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
 
+
     public ImageView backgroundImage;
     @FXML
     private Button createImageButton;
@@ -33,8 +34,8 @@ public class HelloController implements Initializable {
     @FXML
     private StackPane stackContainer;
 
-    private List<ImageView> images = new ArrayList<>();
-    private int imageCounter = 0;
+    private List<Vehicle> vehicles = new ArrayList<>();
+    private int vehicleCounter = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -50,23 +51,24 @@ public class HelloController implements Initializable {
         ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "South", "North", carImage);
 
         //carImage.setLayoutX(0);
         // carImage.setLayoutY(300 + (imageCounter * 110));
 
 
-        carImage.setTranslateX(-45);
-        carImage.setTranslateY(-300);
+        vehicle.getImageView().setTranslateX(-45);
+        vehicle.getImageView().setTranslateY(-300);
 
-        carImage.setRotate(180);
+        vehicle.getImageView().setRotate(180);
 
         //imageContainer.getChildren().add(carImage);
-        stackContainer.getChildren().add(carImage);
-        images.add(carImage);
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
 
         // Update ComboBox with new image
-        imageSelector.getItems().add("Image " + imageCounter);
-        imageCounter++;
+        imageSelector.getItems().add("Vehicle " + vehicleCounter);
+        vehicleCounter++;
 
         moveImageButton.setDisable(false);
         imageSelector.setDisable(false);
@@ -76,23 +78,24 @@ public class HelloController implements Initializable {
         ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "North", "South", carImage);
 
         //carImage.setLayoutX(0);
         // carImage.setLayoutY(300 + (imageCounter * 110));
 
 
-        carImage.setTranslateX(45);
-        carImage.setTranslateY(300);
+        vehicle.getImageView().setTranslateX(45);
+        vehicle.getImageView().setTranslateY(300);
 
-        carImage.setRotate(0);
+        vehicle.getImageView().setRotate(0);
 
         //imageContainer.getChildren().add(carImage);
-        stackContainer.getChildren().add(carImage);
-        images.add(carImage);
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
 
         // Update ComboBox with new image
-        imageSelector.getItems().add("Image " + imageCounter);
-        imageCounter++;
+        imageSelector.getItems().add("Vehicle " + vehicleCounter);
+        vehicleCounter++;
 
         moveImageButton.setDisable(false); // Enable the move button
         imageSelector.setDisable(false); // Enable the image selector
@@ -102,23 +105,24 @@ public class HelloController implements Initializable {
         ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "West", "East", carImage);
 
         //carImage.setLayoutX(0);
         // carImage.setLayoutY(300 + (imageCounter * 110));
 
 
-        carImage.setTranslateX(305);
-        carImage.setTranslateY(-45);
+        vehicle.getImageView().setTranslateX(305);
+        vehicle.getImageView().setTranslateY(-45);
 
-        carImage.setRotate(-90);
+        vehicle.getImageView().setRotate(-90);
 
         //imageContainer.getChildren().add(carImage);
-        stackContainer.getChildren().add(carImage);
-        images.add(carImage);
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
 
         // Update ComboBox with new image
-        imageSelector.getItems().add("Image " + imageCounter);
-        imageCounter++;
+        imageSelector.getItems().add("Vehicle " + vehicleCounter);
+        vehicleCounter++;
 
         moveImageButton.setDisable(false);
         imageSelector.setDisable(false);
@@ -128,23 +132,24 @@ public class HelloController implements Initializable {
         ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto02.png")));
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "East", "West", carImage);
 
         //carImage.setLayoutX(0);
         // carImage.setLayoutY(300 + (imageCounter * 110));
 
 
-        carImage.setTranslateX(-305);
-        carImage.setTranslateY(45);
+        vehicle.getImageView().setTranslateX(-305);
+        vehicle.getImageView().setTranslateY(45);
 
-        carImage.setRotate(90);
+        vehicle.getImageView().setRotate(90);
 
         //imageContainer.getChildren().add(carImage);
-        stackContainer.getChildren().add(carImage);
-        images.add(carImage);
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
 
         // Update ComboBox with new image
-        imageSelector.getItems().add("Image " + imageCounter);
-        imageCounter++;
+        imageSelector.getItems().add("Vehicle " + vehicleCounter);
+        vehicleCounter++;
 
         moveImageButton.setDisable(false);
         imageSelector.setDisable(false);
@@ -158,8 +163,8 @@ public class HelloController implements Initializable {
     }
 
     public void moveImage(int index, int Xpos, int Ypos) {
-        if (index >= 0 && index < images.size()) {
-            ImageView selectedImage = images.get(index);
+        if (index >= 0 && index < vehicles.size()) {
+            ImageView selectedImage = vehicles.get(index).getImageView();
             animateCar(selectedImage, Xpos, Ypos);
         }
     }
@@ -184,8 +189,8 @@ public class HelloController implements Initializable {
     }
 
     public void moveImageBtn(int index) {
-        if (index >= 0 && index < images.size()) {
-            ImageView selectedImage = images.get(index);
+        if (index >= 0 && index < vehicles.size()) {
+            ImageView selectedImage = vehicles.get(index).getImageView();
             animateCarBtn(selectedImage);
         }
     }
@@ -197,35 +202,7 @@ public class HelloController implements Initializable {
         translateTransition.play();
     }
 
-    @FXML
-    public void handleCreateImage() {
-        //ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Carro.jpg")));
-        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
-        carImage.setFitHeight(80);
-        carImage.setFitWidth(60);
-        //carImage.setLayoutX(0);
-       // carImage.setLayoutY(300 + (imageCounter * 110)); // Offset each new image vertically
 
-
-        //carImage.setTranslateX(200); // Set the initial X position
-        //carImage.setTranslateY(100);
-
-        carImage.setTranslateX(-100); // Set the initial X position to the left edge
-        carImage.setTranslateY(0);
-
-        carImage.setRotate(90); // Set initial rotation to 45 degrees
-
-        //imageContainer.getChildren().add(carImage);
-        stackContainer.getChildren().add(carImage);
-        images.add(carImage);
-
-        // Update ComboBox with new image
-        imageSelector.getItems().add("Image " + imageCounter);
-        imageCounter++;
-
-        moveImageButton.setDisable(false); // Enable the move button
-        imageSelector.setDisable(false); // Enable the image selector
-    }
 
 
 }
