@@ -1,6 +1,8 @@
 package com.example.proyectofinal_icc303;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,11 +17,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.PriorityBlockingQueue;
 
 public class HelloController implements Initializable {
 
 
     public ImageView backgroundImage;
+    public Button moverAutoPrioridad;
     @FXML
     private Button createImageButtonNorth;
     @FXML
@@ -56,107 +60,55 @@ public class HelloController implements Initializable {
     }
 
 
-
-    public void handleCreateVehicle() {
-        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
-
-        //Vehicle vehicle = new Vehicle(false, "Rigth", "Norte", carImage);
-
-        //ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Carro.jpg")));
-        carImage.setFitHeight(80);
-        carImage.setFitWidth(60);
-        Vehicle vehicle = new Vehicle(false, "South", "North", carImage);
-
-        //carImage.setLayoutX(0);
-        // carImage.setLayoutY(300 + (imageCounter * 110));
-
-
-        vehicle.getImageView().setTranslateX(-45);
-        vehicle.getImageView().setTranslateY(-300);
-
-        vehicle.getImageView().setRotate(180);
-
-        //imageContainer.getChildren().add(carImage);
-        stackContainer.getChildren().add(vehicle.getImageView());
-        vehicles.add(vehicle);
-
-        // Update ComboBox with new image
-       // imageSelector.getItems().add("Vehicle " + vehicleCounter);
-        vehicleCounter++;
-
-       // moveImageButton.setDisable(false);
-       // imageSelector.setDisable(false);
-    }
-
-
-
-
+    // Prueba movimiento
+    PriorityBlockingQueue<Vehicle> vehicleQueue = new PriorityBlockingQueue<>();
 
 
     public void handleCreateVehicleNorth() {
-        //ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Carro.jpg")));
         ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "South", "North", carImage);
 
-        //carImage.setLayoutX(0);
-        // carImage.setLayoutY(300 + (imageCounter * 110));
-
+        vehicleQueue.add(vehicle);
 
         vehicle.getImageView().setTranslateX(-45);
         vehicle.getImageView().setTranslateY(-300);
 
         vehicle.getImageView().setRotate(180);
 
-        //imageContainer.getChildren().add(carImage);
         stackContainer.getChildren().add(vehicle.getImageView());
         vehicles.add(vehicle);
 
-        // Update ComboBox with new image
-      //  imageSelector.getItems().add("Vehicle " + vehicleCounter);
         vehicleCounter++;
+        InicialMovementNort(vehicle);
 
-       // moveImageButton.setDisable(false);
-       // imageSelector.setDisable(false);
     }
     public void handleCreateVehicleSouth() {
-        //ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Carro.jpg")));
         ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "North", "South", carImage);
-
-        //carImage.setLayoutX(0);
-        // carImage.setLayoutY(300 + (imageCounter * 110));
-
+        vehicleQueue.add(vehicle);
 
         vehicle.getImageView().setTranslateX(45);
         vehicle.getImageView().setTranslateY(300);
 
         vehicle.getImageView().setRotate(0);
 
-        //imageContainer.getChildren().add(carImage);
         stackContainer.getChildren().add(vehicle.getImageView());
         vehicles.add(vehicle);
 
-        // Update ComboBox with new image
-        //imageSelector.getItems().add("Vehicle " + vehicleCounter);
         vehicleCounter++;
-
-       // moveImageButton.setDisable(false); // Enable the move button
-       // imageSelector.setDisable(false); // Enable the image selector
+        InicialMovementSouth(vehicle);
     }
 
     public void handleCreateVehicleEast() {
-        //ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Carro.jpg")));
         ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "West", "East", carImage);
-
-        //carImage.setLayoutX(0);
-        // carImage.setLayoutY(300 + (imageCounter * 110));
+        vehicleQueue.add(vehicle);
 
 
         vehicle.getImageView().setTranslateX(305);
@@ -164,16 +116,12 @@ public class HelloController implements Initializable {
 
         vehicle.getImageView().setRotate(-90);
 
-        //imageContainer.getChildren().add(carImage);
+
         stackContainer.getChildren().add(vehicle.getImageView());
         vehicles.add(vehicle);
 
-        // Update ComboBox with new image
-       // imageSelector.getItems().add("Vehicle " + vehicleCounter);
         vehicleCounter++;
-
-        //moveImageButton.setDisable(false);
-        //imageSelector.setDisable(false);
+        InicialMovementEast(vehicle);
     }
     public void handleCreateVehicleWest() {
         //ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Carro.jpg")));
@@ -181,30 +129,176 @@ public class HelloController implements Initializable {
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "East", "West", carImage);
-
-        //carImage.setLayoutX(0);
-        // carImage.setLayoutY(300 + (imageCounter * 110));
-
+        vehicleQueue.add(vehicle);
 
         vehicle.getImageView().setTranslateX(-305);
         vehicle.getImageView().setTranslateY(45);
 
         vehicle.getImageView().setRotate(90);
 
-        //imageContainer.getChildren().add(carImage);
         stackContainer.getChildren().add(vehicle.getImageView());
         vehicles.add(vehicle);
 
-        // Update ComboBox with new image
-      //  imageSelector.getItems().add("Vehicle " + vehicleCounter);
-        vehicleCounter++;
 
-      //  moveImageButton.setDisable(false);
-      //  imageSelector.setDisable(false);
+        vehicleCounter++;
+        InicialMovementWest(vehicle);
     }
 
 
-    // PARA CODIGO
+
+    public void InicialMovementNort(Vehicle car){
+
+        int Ypos;
+
+        // Aqui se deberia calcular estos valores para que no se solapen los autos
+        Ypos = -130;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        translateTransition.setToY(Ypos);
+        translateTransition.play();
+    }
+    public void InicialMovementSouth(Vehicle car){
+
+        int Ypos;
+
+        // Aqui se deberia calcular estos valores para que no se solapen los autos
+        Ypos = 130;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        translateTransition.setToY(Ypos);
+        translateTransition.play();
+    }
+
+    public void InicialMovementEast(Vehicle car){
+
+        int Xpos;
+
+        // Aqui se deberia calcular estos valores para que no se solapen los autos
+        Xpos = 130;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        translateTransition.setToX(Xpos);
+        translateTransition.play();
+    }
+    public void InicialMovementWest(Vehicle car){
+
+        int Xpos;
+
+        // Aqui se deberia calcular estos valores para que no se solapen los autos
+        Xpos = -130;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        translateTransition.setToX(Xpos);
+        translateTransition.play();
+    }
+
+    public void getCar( ) {
+
+        Vehicle vehicle = vehicleQueue.poll();
+        assert vehicle != null;
+        if(vehicle.getCalle().equals("North"))
+        {
+            //moveCar(vehicle, 0, 200);
+            moveNorth(vehicle);
+        }
+        else if(vehicle.getCalle().equals("South")){
+            moveSouth(vehicle);
+        }
+        else if(vehicle.getCalle().equals("East")){
+            moveEast(vehicle);
+        }
+        else
+        {
+            moveWest(vehicle);
+        }
+
+
+        //moveCar(vehicle, 100, 100);
+
+    }
+
+    private void moveCar(Vehicle car, int Xpos, int Ypos) {
+       /*
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(2), car.getImageView());
+        translateTransition.setToX(car.getImageView().getTranslateX() + Xpos);
+        translateTransition.setToY(car.getImageView().getTranslateY() + Ypos);
+        translateTransition.play();
+        */
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        //translateTransition.setToX(Xpos);
+        translateTransition.setToY(Ypos);
+        translateTransition.play();
+
+
+
+
+
+
+
+
+    }
+
+    private void moveNorth(Vehicle car){
+        int Ypos;
+
+        // Aqui se deberia calcular estos valores para que no se solapen los autos
+        Ypos = 400;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        translateTransition.setToY(Ypos);
+        translateTransition.play();
+    }
+
+    private void moveSouth(Vehicle car){
+        int Ypos;
+
+        // Aqui se deberia calcular estos valores para que no se solapen los autos
+        Ypos = -320;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        translateTransition.setToY(Ypos);
+        translateTransition.play();
+
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.5), car.getImageView());
+        fadeTransition.setFromValue(1.0);
+        fadeTransition.setToValue(0.0);
+
+        translateTransition.setOnFinished(event -> {
+            fadeTransition.play();
+        });
+    }
+
+
+
+    private void moveEast(Vehicle car){
+        int Xpos;
+
+        // Aqui se deberia calcular estos valores para que no se solapen los autos
+        Xpos = -420;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        translateTransition.setToX(Xpos);
+        translateTransition.play();
+    }
+
+    private void moveWest(Vehicle car){
+        int Xpos;
+
+        // Aqui se deberia calcular estos valores para que no se solapen los autos
+        Xpos = 420;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        translateTransition.setToX(Xpos);
+        translateTransition.play();
+
+    }
+
+
+
+
+
+        // PARA CODIGO
     @FXML
     public void handleMoveCar(int index, int Xpos, int Ypos) {
         if (index >= 0 && index < vehicles.size()) {
@@ -246,7 +340,6 @@ public class HelloController implements Initializable {
         //translateTransition.setToY(carImage.getTranslateY() + 100); // Move 100 pixels down
         translateTransition.play();
     }
-
 
 
 

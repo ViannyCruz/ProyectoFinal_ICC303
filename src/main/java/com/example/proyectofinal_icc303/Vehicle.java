@@ -22,7 +22,7 @@ public class Vehicle implements Comparable<Vehicle> {
         return Integer.compare(this.id, other.id);
     }
 
-    // Constructor actualizado
+
     public Vehicle(boolean emergency, String direction, String calle, ImageView imageView) {
         this.id = nextId++;
         this.emergency = emergency;
@@ -32,6 +32,11 @@ public class Vehicle implements Comparable<Vehicle> {
         this.x = imageView.getLayoutX(); // Inicializa x, y con la posición actual de imageView
         this.y = imageView.getLayoutY();
     }
+
+
+
+
+
 
     // Métodos getters y setters para x, y e imageView omitidos por brevedad
 

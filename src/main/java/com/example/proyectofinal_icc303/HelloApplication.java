@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.concurrent.PriorityBlockingQueue;
 
 public class HelloApplication extends Application {
     @Override
@@ -20,6 +21,8 @@ public class HelloApplication extends Application {
 
         // Obtener el controlador
         HelloController controller = fxmlLoader.getController();
+
+
 
 
 
