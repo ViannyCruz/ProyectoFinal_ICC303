@@ -44,7 +44,7 @@ public class HelloController implements Initializable {
 
     private List<Vehicle> vehicles = new ArrayList<>();
     private PriorityBlockingQueue<Vehicle> vehicleQueue = new PriorityBlockingQueue<>();
-
+    TrafficController trafficController = new TrafficController();
     private int numVehiculos = 0;
 
     @Override
@@ -55,22 +55,19 @@ public class HelloController implements Initializable {
         cantWest = 0;
     }
 
-    int cantNorth = 0;
-    int cantSouth = 0;
-    int cantEast = 0;
-    int cantWest = 0;
+    static int cantNorth = 0;
+    static int cantSouth = 0;
+    static int cantEast = 0;
+    static int cantWest = 0;
 
     private static PriorityBlockingQueue<Vehicle> vehiclesNorth = new PriorityBlockingQueue<>();
     private static PriorityBlockingQueue<Vehicle> vehiclesSouth = new PriorityBlockingQueue<>();
     private static PriorityBlockingQueue<Vehicle> vehiclesEast = new PriorityBlockingQueue<>();
     private static PriorityBlockingQueue<Vehicle> vehiclesWest = new PriorityBlockingQueue<>();
-
     private static PriorityBlockingQueue<Vehicle> AllVehicles = new PriorityBlockingQueue<>();
 
-    public PriorityBlockingQueue<Vehicle> get_vehiclesNorth() {
-        return vehiclesNorth;
-    }
 
+<<<<<<< HEAD
     public PriorityBlockingQueue<Vehicle> get_vehicles() {
         return AllVehicles;
     }
@@ -86,6 +83,8 @@ public class HelloController implements Initializable {
     public PriorityBlockingQueue<Vehicle> get_vehiclesWest() {
         return vehiclesWest;
     }
+=======
+>>>>>>> 3510010982bb679ad471b2b24556d0690945cfa6
 
 
 
@@ -212,8 +211,10 @@ public class HelloController implements Initializable {
 
         stackContainer.getChildren().add(vehicle.getImageView());
         vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
 
         InicialMovementNorth(vehicle);
+//        trafficController.addVehicle(vehicle);
     }
 
     public void InicialMovementNorth(Vehicle car) {
@@ -235,13 +236,20 @@ public class HelloController implements Initializable {
         int Ypos = 400;
 
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        vehiclesNorth.remove(car);
+        AllVehicles.remove(car);
         translateTransition.setToY(Ypos);
+<<<<<<< HEAD
         translateTransition.setOnFinished(event -> {
             vehiclesNorth.remove(car);
 
             updatePositionsNorth();
         });
+=======
+>>>>>>> 3510010982bb679ad471b2b24556d0690945cfa6
         translateTransition.play();
+        cantNorth--;
+        updatePositionsNorth();
     }
 
     private static void updatePositionsNorth() {
@@ -280,8 +288,10 @@ public class HelloController implements Initializable {
 
         stackContainer.getChildren().add(vehicle.getImageView());
         vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
 
         InicialMovementSouth(vehicle);
+//        trafficController.addVehicle(vehicle);
     }
 
     public void InicialMovementSouth(Vehicle car) {
@@ -303,14 +313,21 @@ public class HelloController implements Initializable {
         int Ypos = -400;
 
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        vehiclesSouth.remove(car);
+        AllVehicles.remove(car);
         translateTransition.setToY(Ypos);
+<<<<<<< HEAD
         translateTransition.setOnFinished(event -> {
             vehiclesSouth.remove(car);
             updatePositionsSouth();
             ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
 
         });
+=======
+>>>>>>> 3510010982bb679ad471b2b24556d0690945cfa6
         translateTransition.play();
+        cantSouth--;
+        updatePositionsSouth();
     }
 
     private static void updatePositionsSouth() {
@@ -349,8 +366,10 @@ public class HelloController implements Initializable {
 
         stackContainer.getChildren().add(vehicle.getImageView());
         vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
 
         InicialMovementEast(vehicle);
+//        trafficController.addVehicle(vehicle);
     }
 
     public void InicialMovementEast(Vehicle car) {
@@ -371,13 +390,14 @@ public class HelloController implements Initializable {
     public static void moveEast(Vehicle car) {
         int Xpos = -420;
 
+
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        vehiclesEast.remove(car);
+        AllVehicles.remove(car);
         translateTransition.setToX(Xpos);
-        translateTransition.setOnFinished(event -> {
-            vehiclesEast.remove(car);
-            updatePositionsEast();
-        });
         translateTransition.play();
+        cantEast--;
+        updatePositionsEast();
     }
 
     private static void updatePositionsEast() {
@@ -416,8 +436,10 @@ public class HelloController implements Initializable {
 
         stackContainer.getChildren().add(vehicle.getImageView());
         vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
 
         InicialMovementWest(vehicle);
+//        trafficController.addVehicle(vehicle);
     }
 
     public void InicialMovementWest(Vehicle car) {
@@ -433,18 +455,20 @@ public class HelloController implements Initializable {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
         translateTransition.setToX(Xpos);
         translateTransition.play();
+
     }
 
     public static void moveWest(Vehicle car) {
-        int Xpos = 420;
 
+        int Xpos = 420;
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        vehiclesWest.remove(car);
+        AllVehicles.remove(car);
         translateTransition.setToX(Xpos);
-        translateTransition.setOnFinished(event -> {
-            vehiclesWest.remove(car);
-            updatePositionsWest();
-        });
         translateTransition.play();
+        cantWest--;
+        updatePositionsWest();
+
     }
 
     private static void updatePositionsWest() {
@@ -459,16 +483,19 @@ public class HelloController implements Initializable {
             else if (index == 2)
                 Xpos = -310;
 
-            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), vehicle.getImageView());
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
             translateTransition.setToX(Xpos);
             translateTransition.play();
             index++;
         }
     }
 
-    public void getCar() {
-        TrafficController trafficController = new TrafficController();
-        trafficController.startControl(vehicleQueue);
+    public void pausa() {
+        for (Vehicle vehicle : AllVehicles) {
+            trafficController.addVehicle(vehicle);
+        }
+
+
     }
 
     private void moveCar(Vehicle car, int Xpos, int Ypos) {
