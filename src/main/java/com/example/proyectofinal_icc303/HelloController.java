@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
@@ -22,6 +23,11 @@ public class HelloController implements Initializable {
     public ImageView backgroundImage;
     public Button moverAutoPrioridad;
     public Button pausa;
+    public Button emergencia;
+    public Button emergenciaNorte;
+    public Button emergenciaSouth;
+    public Button emergenciaEast;
+    public Button emergenciaWest;
     @FXML
     private Button createImageButtonNorth;
     @FXML
@@ -65,6 +71,10 @@ public class HelloController implements Initializable {
         return vehiclesNorth;
     }
 
+    public PriorityBlockingQueue<Vehicle> get_vehicles() {
+        return AllVehicles;
+    }
+
     public PriorityBlockingQueue<Vehicle> get_vehiclesSouth() {
         return vehiclesSouth;
     }
@@ -77,6 +87,112 @@ public class HelloController implements Initializable {
         return vehiclesWest;
     }
 
+
+
+
+    // Emergencia
+    String Emergency = "";
+    public String getEmergency(){
+        return Emergency;
+    }
+    public void resetEmergency(){
+        Emergency = "";
+    }
+    public void addCar( Vehicle vehicle){
+        AllVehicles.add(vehicle);
+    }
+
+    public void handleCreateVehicleEmergencyNorth() {
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+
+        Vehicle vehicle = new Vehicle(true, "South", "North", carImage);
+        Emergency = "North";
+        vehiclesNorth.add(vehicle);
+
+        cantNorth++;
+
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-45);
+        vehicle.getImageView().setTranslateY(-320);
+        vehicle.getImageView().setRotate(180);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+
+        InicialMovementNorth(vehicle);
+    }
+    public void handleCreateVehicleEmergencySouth() {
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "North", "South", carImage);
+        Emergency = "South";
+
+        vehiclesSouth.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        cantSouth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(45);
+        vehicle.getImageView().setTranslateY(300);
+        vehicle.getImageView().setRotate(0);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+
+        InicialMovementSouth(vehicle);
+    }
+    public void handleCreateVehicleEmergencyEast() {
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "West", "East", carImage);
+        Emergency = "East";
+
+        vehiclesEast.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        cantEast++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(305);
+        vehicle.getImageView().setTranslateY(-45);
+        vehicle.getImageView().setRotate(-90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+
+        InicialMovementEast(vehicle);
+    }
+    public void handleCreateVehicleEmergencyWest() {
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "East", "West", carImage);
+        Emergency = "West";
+
+        vehiclesWest.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        cantWest++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-305);
+        vehicle.getImageView().setTranslateY(45);
+        vehicle.getImageView().setRotate(90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+
+        InicialMovementWest(vehicle);
+    }
+
+
+
     public void handleCreateVehicleNorth() {
         ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
         carImage.setFitHeight(80);
@@ -84,7 +200,10 @@ public class HelloController implements Initializable {
 
         Vehicle vehicle = new Vehicle(false, "South", "North", carImage);
         vehiclesNorth.add(vehicle);
+        AllVehicles.add(vehicle);
+
         cantNorth++;
+
         numVehiculos++;
 
         vehicle.getImageView().setTranslateX(-45);
@@ -119,6 +238,7 @@ public class HelloController implements Initializable {
         translateTransition.setToY(Ypos);
         translateTransition.setOnFinished(event -> {
             vehiclesNorth.remove(car);
+
             updatePositionsNorth();
         });
         translateTransition.play();
@@ -149,6 +269,8 @@ public class HelloController implements Initializable {
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "North", "South", carImage);
         vehiclesSouth.add(vehicle);
+        AllVehicles.add(vehicle);
+
         cantSouth++;
         numVehiculos++;
 
@@ -185,6 +307,8 @@ public class HelloController implements Initializable {
         translateTransition.setOnFinished(event -> {
             vehiclesSouth.remove(car);
             updatePositionsSouth();
+            ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+
         });
         translateTransition.play();
     }
@@ -214,6 +338,8 @@ public class HelloController implements Initializable {
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "West", "East", carImage);
         vehiclesEast.add(vehicle);
+        AllVehicles.add(vehicle);
+
         cantEast++;
         numVehiculos++;
 
@@ -279,6 +405,8 @@ public class HelloController implements Initializable {
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "East", "West", carImage);
         vehiclesWest.add(vehicle);
+        AllVehicles.add(vehicle);
+
         cantWest++;
         numVehiculos++;
 
@@ -371,5 +499,20 @@ public class HelloController implements Initializable {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(2), carImage);
         translateTransition.setToX(carImage.getTranslateX() + 170);
         translateTransition.play();
+    }
+
+    public void reduceNorth() {
+        cantNorth--;
+    }
+    public void reduceSouth() {
+        cantSouth--;
+    }
+
+    public void reduceEast() {
+        cantEast--;
+    }
+
+    public void reduceWest() {
+        cantWest--;
     }
 }

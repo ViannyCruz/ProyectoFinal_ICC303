@@ -18,6 +18,15 @@
                 <Button fx:id="createImageButtonEast" onAction="#handleCreateVehicleEast" text="Auto Noroeste" />
                 <Button fx:id="createImageButtonWest" onAction="#handleCreateVehicleWest" text="Auto Oeste" />
                 <Button fx:id="pausa" text="Pausa" />
+
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" spacing="10">
+            <children>
+                <Button fx:id="emergenciaNorte" onAction="#handleCreateVehicleEmergencyNorth" text="Emergency Norte" />
+                <Button fx:id="emergenciaSouth" onAction="#handleCreateVehicleEmergencySouth" text="Emergency Sur" />
+                <Button fx:id="emergenciaEast" onAction="#handleCreateVehicleEmergencyEast" text="Emergency Este" />
+                <Button fx:id="emergenciaWest" onAction="#handleCreateVehicleEmergencyWest" text="Emergency Oeste" />
             </children>
         </HBox>
 
