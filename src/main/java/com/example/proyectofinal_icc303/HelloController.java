@@ -21,6 +21,7 @@ public class HelloController implements Initializable {
 
     public ImageView backgroundImage;
     public Button moverAutoPrioridad;
+    public Button pausa;
     @FXML
     private Button createImageButtonNorth;
     @FXML

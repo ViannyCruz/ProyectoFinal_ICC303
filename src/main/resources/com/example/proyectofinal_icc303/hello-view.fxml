@@ -17,7 +17,7 @@
                 <Button fx:id="createImageButtonSouth" onAction="#handleCreateVehicleSouth" text="Auto Sur" />
                 <Button fx:id="createImageButtonEast" onAction="#handleCreateVehicleEast" text="Auto Noroeste" />
                 <Button fx:id="createImageButtonWest" onAction="#handleCreateVehicleWest" text="Auto Oeste" />
-                <Button fx:id="moverAutoPrioridad" onAction="#getCar" text="Mover" />
+                <Button fx:id="pausa" text="Pausa" />
             </children>
         </HBox>
 
