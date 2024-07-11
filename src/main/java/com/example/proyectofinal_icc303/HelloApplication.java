@@ -6,8 +6,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.security.AllPermission;
-import java.util.Objects;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -27,7 +25,6 @@ public class HelloApplication extends Application {
         // Obtener el controlador
         HelloController controller = fxmlLoader.getController();
 
-        Intersection intersection01 = new Intersection("1", true);
 
         AtomicReference<PriorityBlockingQueue<Vehicle>> vehiclesNorth = new AtomicReference<>(new PriorityBlockingQueue<>());
         AtomicReference<PriorityBlockingQueue<Vehicle>> vehiclesSouth = new AtomicReference<>(new PriorityBlockingQueue<>());
@@ -48,15 +45,6 @@ public class HelloApplication extends Application {
 
 
                     vehicles.set(controller.get_vehicles());
-
-
-                    // Determinar de que conjunto quiero el auto
-                    //Vehicle vehicle = vehiclesNorth.get().poll();
-
-                    // Todo : esto se podria buscar por calle tal vez mejor
-
-
-
 
 
                     //EMERGENCY
@@ -103,37 +91,6 @@ public class HelloApplication extends Application {
 
                     } else  {
 
-                        /*
-                        while (!vehiclesNorth.get().isEmpty()) {
-                            Vehicle vehicle02 = vehiclesNorth.get().poll();
-                            if (vehicle02 != null) {
-
-                                HelloController.moveNorth(vehicle02);
-                                controller.reduceNorth();
-
-
-
-
-                            }
-                        }*/
-
-
-
-                        System.out.println("UN LLAMADO DE EMERGENCIA BABY");
-/*
-                        Vehicle holder;
-                        while ((holder = vehiclesNorth.get().poll()) != null) {
-                            HelloController.moveNorth(holder);
-                            controller.reduceNorth();
-                            Thread.sleep(1000);
-
-                            if (holder.isEmergency()) {
-
-                                controller.resetEmergency();
-                                break;
-
-                            }
-                        }*/
 
 
                         Vehicle holder;
