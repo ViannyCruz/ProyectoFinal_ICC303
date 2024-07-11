@@ -40,7 +40,6 @@ public class HelloApplication extends Application {
                 while (running) {
                     Thread.sleep(1000);
 
-<<<<<<< HEAD
                     vehiclesNorth.set(controller.get_vehiclesNorth());
                     vehiclesSouth.set(controller.get_vehiclesSouth());
                     vehiclesEast.set(controller.get_vehiclesEast());
@@ -194,8 +193,6 @@ public class HelloApplication extends Application {
                         }
 
 
-=======
->>>>>>> 3510010982bb679ad471b2b24556d0690945cfa6
 
 
 

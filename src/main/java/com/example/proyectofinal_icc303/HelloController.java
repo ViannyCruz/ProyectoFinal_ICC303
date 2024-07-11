@@ -67,13 +67,16 @@ public class HelloController implements Initializable {
     private static PriorityBlockingQueue<Vehicle> AllVehicles = new PriorityBlockingQueue<>();
 
 
-<<<<<<< HEAD
     public PriorityBlockingQueue<Vehicle> get_vehicles() {
         return AllVehicles;
     }
 
     public PriorityBlockingQueue<Vehicle> get_vehiclesSouth() {
         return vehiclesSouth;
+
+    }
+    public PriorityBlockingQueue<Vehicle> get_vehiclesNorth() {
+        return vehiclesNorth;
     }
 
     public PriorityBlockingQueue<Vehicle> get_vehiclesEast() {
@@ -83,8 +86,6 @@ public class HelloController implements Initializable {
     public PriorityBlockingQueue<Vehicle> get_vehiclesWest() {
         return vehiclesWest;
     }
-=======
->>>>>>> 3510010982bb679ad471b2b24556d0690945cfa6
 
 
 
@@ -239,14 +240,11 @@ public class HelloController implements Initializable {
         vehiclesNorth.remove(car);
         AllVehicles.remove(car);
         translateTransition.setToY(Ypos);
-<<<<<<< HEAD
         translateTransition.setOnFinished(event -> {
             vehiclesNorth.remove(car);
 
             updatePositionsNorth();
         });
-=======
->>>>>>> 3510010982bb679ad471b2b24556d0690945cfa6
         translateTransition.play();
         cantNorth--;
         updatePositionsNorth();
@@ -316,15 +314,12 @@ public class HelloController implements Initializable {
         vehiclesSouth.remove(car);
         AllVehicles.remove(car);
         translateTransition.setToY(Ypos);
-<<<<<<< HEAD
         translateTransition.setOnFinished(event -> {
             vehiclesSouth.remove(car);
             updatePositionsSouth();
             ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
 
         });
-=======
->>>>>>> 3510010982bb679ad471b2b24556d0690945cfa6
         translateTransition.play();
         cantSouth--;
         updatePositionsSouth();
