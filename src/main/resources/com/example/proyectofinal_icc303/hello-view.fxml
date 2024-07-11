@@ -17,7 +17,6 @@
                 <Button fx:id="createImageButtonSouth" onAction="#handleCreateVehicleSouth" text="Auto Sur" />
                 <Button fx:id="createImageButtonEast" onAction="#handleCreateVehicleEast" text="Auto Este" />
                 <Button fx:id="createImageButtonWest" onAction="#handleCreateVehicleWest" text="Auto Oeste" />
-<<<<<<< HEAD
                 <Button fx:id="pausa" text="Pausa" />
 
             </children>
@@ -28,9 +27,6 @@
                 <Button fx:id="emergenciaSouth" onAction="#handleCreateVehicleEmergencySouth" text="Emergency Sur" />
                 <Button fx:id="emergenciaEast" onAction="#handleCreateVehicleEmergencyEast" text="Emergency Este" />
                 <Button fx:id="emergenciaWest" onAction="#handleCreateVehicleEmergencyWest" text="Emergency Oeste" />
-=======
-                <Button fx:id="pausa" onAction="#pausa" text="Pausa" />
->>>>>>> 3510010982bb679ad471b2b24556d0690945cfa6
             </children>
         </HBox>
 
