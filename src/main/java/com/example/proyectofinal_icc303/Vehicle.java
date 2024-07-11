@@ -31,9 +31,6 @@ public class Vehicle implements  Comparable<Vehicle> {
     }
 
 
-
-
-
     // Métodos getters y setters para x, y e imageView omitidos por brevedad
 
     public void move(int X, int Y) {
