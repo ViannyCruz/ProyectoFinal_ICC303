@@ -35,7 +35,6 @@ public class HelloApplication extends Application {
                     Thread.sleep(1000);
 
 
-                    vehiclesNorth.set(controller.get_vehiclesNorth());
 
                     Vehicle vehicle = vehiclesNorth.get().poll();
                     if(vehicle != null) {
