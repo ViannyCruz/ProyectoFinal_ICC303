@@ -1,13 +1,10 @@
 package com.example.proyectofinal_icc303;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-public class Vehicle implements Comparable<Vehicle> {
+public class Vehicle implements  Comparable<Vehicle> {
     private static int nextId = 1;
     private int id;
     private boolean emergency;
@@ -37,7 +34,6 @@ public class Vehicle implements Comparable<Vehicle> {
 
 
 
-
     // Métodos getters y setters para x, y e imageView omitidos por brevedad
 
     public void move(int X, int Y) {
@@ -58,6 +54,7 @@ public class Vehicle implements Comparable<Vehicle> {
     public boolean isEmergency() {
         return emergency;
     }
+
 
     public String getDirection() {
         return direction;
@@ -91,7 +88,6 @@ public class Vehicle implements Comparable<Vehicle> {
     public void setImageView(ImageView imageView) {
         this.imageView = imageView;
     }
-
 
 
 }

@@ -23,47 +23,6 @@ public class HelloApplication extends Application {
         HelloController controller = fxmlLoader.getController();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // Ejemplo
-        /*
-        controller.handleCreateVehicleWest();
-        controller.handleMoveCar(0, 170, 0);
-
-        controller.handleCreateVehicleNorth();
-        controller.handleMoveCar(1, 0, 170);
-        controller.handleMoveCar(1, 0, 670);
-        */
-
     }
 
     public static void main(String[] args) {

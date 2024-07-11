@@ -1,51 +1,46 @@
 package com.example.proyectofinal_icc303;
 
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 public class TrafficController {
-    private List<Intersection> intersections;
-    private List<TrafficLight> trafficLights;
-    private ScheduledExecutorService scheduler;
+    private Queue<Runnable> tasks = new LinkedList<>();
 
-    public TrafficController(List<Intersection> intersections, List<TrafficLight> trafficLights) {
-        this.intersections = intersections;
-        this.trafficLights = trafficLights;
-        this.scheduler = Executors.newScheduledThreadPool(10);
-    }
-
-    public void startControl() {
-
-        for(TrafficLight light : trafficLights) {
-            scheduler.scheduleAtFixedRate(light::changeLight, 0, 60, TimeUnit.SECONDS);
-        }
-
-        scheduler.scheduleAtFixedRate(this::manageIntersections,0,1,TimeUnit.SECONDS);
-
-
-
-    }
-
-    private void manageIntersections() {
-        for(Intersection intersection : intersections) {
-            Vehicle nextVehicle = intersection.getNextVehicle();
-            if(nextVehicle != null) {
-                // Logica para gestionar el cruce de vehiculos
-
-            }
+    private void scheduleNext() {
+        if (!tasks.isEmpty()) {
+            tasks.poll().run();
         }
     }
 
-    public void stopControl() {
-        scheduler.shutdown();
+    private void addVehicleAnimation(Vehicle vehicle) {
+        tasks.offer(() -> {
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            pause.setOnFinished(event -> {
+                if (vehicle.getCalle().equals("North")) {
+                    HelloController.moveNorth(vehicle);
+                } else if (vehicle.getCalle().equals("South")) {
+                    HelloController.moveSouth(vehicle);
+                } else if (vehicle.getCalle().equals("East")) {
+                    HelloController.moveEast(vehicle);
+                } else if (vehicle.getCalle().equals("West")) {
+                    HelloController.moveWest(vehicle);
+                }
+                scheduleNext();
+            });
+            pause.play();
+        });
     }
 
-
-
-
-
-
-
+    public void startControl(PriorityBlockingQueue<Vehicle> vehicleQueue) {
+        while (!vehicleQueue.isEmpty()) {
+            Vehicle vehicle = vehicleQueue.poll();
+            assert vehicle != null;
+            addVehicleAnimation(vehicle);
+        }
+        scheduleNext();
+    }
 }
