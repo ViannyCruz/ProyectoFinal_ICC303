@@ -61,6 +61,8 @@ public class HelloApplication extends Application {
                                     vehiclesNorth.get().poll();
                                     HelloController.moveNorth(vehicle1);
                                     controller.reduceNorth();
+                                    Thread.sleep(2000);
+
                                 }
                             }else if(vehicle.getCalle().equals("South")) {
                                 vehicle1 = findVehicle(vehiclesSouth, vehicle);
@@ -68,6 +70,8 @@ public class HelloApplication extends Application {
                                     vehiclesSouth.get().poll();
                                     HelloController.moveSouth(vehicle1);
                                     controller.reduceSouth();
+                                    Thread.sleep(2000);
+
                                 }
                             }else if(vehicle.getCalle().equals("East")) {
                                 vehicle1 = findVehicle(vehiclesEast, vehicle);
@@ -75,6 +79,8 @@ public class HelloApplication extends Application {
                                     vehiclesEast.get().poll();
                                     HelloController.moveEast(vehicle1);
                                     controller.reduceEast();
+                                    Thread.sleep(2000);
+
                                 }
                             }else if(vehicle.getCalle().equals("West")) {
                                 vehicle1 = findVehicle(vehiclesWest, vehicle);
@@ -82,6 +88,8 @@ public class HelloApplication extends Application {
                                     vehiclesWest.get().poll();
                                     HelloController.moveWest(vehicle1);
                                     controller.reduceWest();
+                                    Thread.sleep(2000);
+
                                 }
                             }
 
@@ -134,7 +142,21 @@ public class HelloApplication extends Application {
 
                                 }
                             }
-                        }else{
+                        }else if(emergency.equals("West")){
+                            while ((holder = vehiclesWest.get().poll()) != null) {
+                                HelloController.moveWest(holder);
+                                controller.reduceWest();
+                                Thread.sleep(1000);
+
+                                if (holder.isEmergency()) {
+
+                                    controller.resetEmergency();
+                                    break;
+
+                                }
+                            }
+                        }
+                        else{
                             while ((holder = vehiclesWest.get().poll()) != null) {
                                 HelloController.moveWest(holder);
                                 controller.reduceWest();

@@ -209,7 +209,7 @@ public class HelloController implements Initializable {
         else if (cantNorth == 3)
             Ypos = -310;
 
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
         translateTransition.setToY(Ypos);
         translateTransition.play();
     }
@@ -283,7 +283,7 @@ public class HelloController implements Initializable {
         else if (cantSouth == 3)
             Ypos = 310;
 
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
         translateTransition.setToY(Ypos);
         translateTransition.play();
     }
@@ -318,7 +318,7 @@ public class HelloController implements Initializable {
             else if (index == 2)
                 Ypos = 310;
 
-            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), vehicle.getImageView());
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
             translateTransition.setToY(Ypos);
             translateTransition.play();
             index++;
@@ -358,7 +358,7 @@ public class HelloController implements Initializable {
         else if (cantEast == 3)
             Xpos = 310;
 
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
         translateTransition.setToX(Xpos);
         translateTransition.play();
     }
@@ -367,7 +367,7 @@ public class HelloController implements Initializable {
         int Xpos = -420;
 
 
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
         vehiclesEast.remove(car);
         AllVehicles.remove(car);
         translateTransition.setToX(Xpos);
@@ -388,7 +388,7 @@ public class HelloController implements Initializable {
             else if (index == 2)
                 Xpos = 310;
 
-            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), vehicle.getImageView());
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
             translateTransition.setToX(Xpos);
             translateTransition.play();
             index++;
@@ -427,7 +427,7 @@ public class HelloController implements Initializable {
         else if (cantWest == 3)
             Xpos = -310;
 
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
         translateTransition.setToX(Xpos);
         translateTransition.play();
 
@@ -436,7 +436,7 @@ public class HelloController implements Initializable {
     public static void moveWest(Vehicle car) {
 
         int Xpos = 420;
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
         vehiclesWest.remove(car);
         AllVehicles.remove(car);
         translateTransition.setToX(Xpos);
