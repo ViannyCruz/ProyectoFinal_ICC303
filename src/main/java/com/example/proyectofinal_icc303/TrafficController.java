@@ -61,7 +61,7 @@ public class TrafficController {
                 if (vehicle.getCalle().equals("North")) {
                     HelloController.moveNorth(vehicle);
                 } else if (vehicle.getCalle().equals("South")) {
-                    HelloController.moveSouth(vehicle);
+                    HelloController.moveSouthUturn(vehicle);
                 } else if (vehicle.getCalle().equals("East")) {
                     HelloController.moveEast(vehicle);
                 } else if (vehicle.getCalle().equals("West")) {
@@ -79,7 +79,6 @@ public class TrafficController {
     }
 
     public void startControl() {
-
         while (!queue.isEmpty()) {
             Vehicle vehicle = queue.poll();
             if(vehicle!=null){
@@ -87,7 +86,6 @@ public class TrafficController {
             }
         }
         scheduleNext();
-
     }
 
     public void stopControl() {
