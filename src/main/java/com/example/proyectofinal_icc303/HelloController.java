@@ -106,6 +106,10 @@ public class HelloController implements Initializable {
         vehiclesNorth.remove(car);
         AllVehicles.remove(car);
         translateTransition.setToY(Ypos);
+        translateTransition.setOnFinished(event -> {
+            vehiclesNorth.remove(car);
+            updatePositionsNorth();
+        });
         translateTransition.play();
         cantNorth--;
         updatePositionsNorth();
@@ -173,6 +177,10 @@ public class HelloController implements Initializable {
         vehiclesSouth.remove(car);
         AllVehicles.remove(car);
         translateTransition.setToY(Ypos);
+        translateTransition.setOnFinished(event -> {
+                    vehiclesSouth.remove(car);
+                    updatePositionsSouth();
+                });
         translateTransition.play();
         cantSouth--;
         updatePositionsSouth();
@@ -241,6 +249,10 @@ public class HelloController implements Initializable {
         vehiclesEast.remove(car);
         AllVehicles.remove(car);
         translateTransition.setToX(Xpos);
+        translateTransition.setOnFinished(event -> {
+            vehiclesEast.remove(car);
+            updatePositionsEast();
+        });
         translateTransition.play();
         cantEast--;
         updatePositionsEast();
@@ -309,6 +321,10 @@ public class HelloController implements Initializable {
         vehiclesWest.remove(car);
         AllVehicles.remove(car);
         translateTransition.setToX(Xpos);
+        translateTransition.setOnFinished(event -> {
+            vehiclesWest.remove(car);
+            updatePositionsWest();
+        });
         translateTransition.play();
         cantWest--;
         updatePositionsWest();
