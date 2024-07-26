@@ -82,7 +82,82 @@ public class HelloController implements Initializable {
         AllVehicles.add(vehicle);
 
         InicialMovementNorth(vehicle);
-        trafficController.addVehicle(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateVehicleNorthUTurn() {
+        if(vehiclesNorth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+
+        Vehicle vehicle = new Vehicle(false, "North", "North", carImage);
+        vehiclesNorth.add(vehicle);
+        cantNorth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-45);
+        vehicle.getImageView().setTranslateY(-320);
+        vehicle.getImageView().setRotate(180);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementNorth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateVehicleNorthRightTurn() {
+        if(vehiclesNorth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+
+        Vehicle vehicle = new Vehicle(false, "West", "North", carImage);
+        vehiclesNorth.add(vehicle);
+        cantNorth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-45);
+        vehicle.getImageView().setTranslateY(-320);
+        vehicle.getImageView().setRotate(180);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementNorth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateVehicleNorthLeftTurn() {
+        if(vehiclesNorth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+
+        Vehicle vehicle = new Vehicle(false, "East", "North", carImage);
+        vehiclesNorth.add(vehicle);
+        cantNorth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-45);
+        vehicle.getImageView().setTranslateY(-320);
+        vehicle.getImageView().setRotate(180);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementNorth(vehicle);
+//        trafficController.addVehicle(vehicle);
     }
 
     public void InicialMovementNorth(Vehicle car) {
@@ -98,6 +173,9 @@ public class HelloController implements Initializable {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
         translateTransition.setToY(Ypos);
         translateTransition.play();
+        translateTransition.setOnFinished(event -> {
+            trafficController.addVehicle(car);
+        });
     }
 
     public static void moveNorth(Vehicle car) {
@@ -115,6 +193,40 @@ public class HelloController implements Initializable {
         translateTransition.play();
         cantNorth--;
         updatePositionsNorth();
+    }
+
+    public static void moveNorthUTurn(Vehicle car) {
+
+        int Ypos = -30;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
+        vehiclesNorth.remove(car);
+        AllVehicles.remove(car);
+        translateTransition.setToY(Ypos);
+        translateTransition.setOnFinished(event -> {
+            car.getImageView().setRotate(90);
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.6), car.getImageView());
+            int Xpos = 40;
+            translateTransition2.setToX(Xpos);
+            translateTransition2.play();
+
+            translateTransition2.setOnFinished(event2 -> {
+                car.getImageView().setRotate(360);
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(3), car.getImageView());
+                translateTransition3.setToY(-400);
+                translateTransition3.play();
+
+                translateTransition3.setOnFinished(event3 -> {
+                    vehiclesNorth.remove(car);
+                    updatePositionsNorth();
+                    ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                });
+            });
+        });
+        translateTransition.play();
+        cantNorth--;
+        updatePositionsNorth();
+
     }
 
     private static void updatePositionsNorth() {
@@ -157,8 +269,81 @@ public class HelloController implements Initializable {
         AllVehicles.add(vehicle);
 
         InicialMovementSouth(vehicle);
-        trafficController.addVehicle(vehicle);
+//        trafficController.addVehicle(vehicle);
     }
+
+    public void handleCreateVehicleSouthUTurn() {
+        if(vehiclesSouth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "South", "South", carImage);
+        vehiclesSouth.add(vehicle);
+        cantSouth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(45);
+        vehicle.getImageView().setTranslateY(300);
+        vehicle.getImageView().setRotate(0);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementSouth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateVehicleSouthRightTurn() {
+        if(vehiclesSouth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "East", "South", carImage);
+        vehiclesSouth.add(vehicle);
+        cantSouth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(45);
+        vehicle.getImageView().setTranslateY(300);
+        vehicle.getImageView().setRotate(0);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementSouth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateVehicleSouthLeftTurn() {
+        if(vehiclesSouth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "West", "South", carImage);
+        vehiclesSouth.add(vehicle);
+        cantSouth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(45);
+        vehicle.getImageView().setTranslateY(300);
+        vehicle.getImageView().setRotate(0);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementSouth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
 
     public void InicialMovementSouth(Vehicle car) {
         int Ypos = 300;
@@ -173,6 +358,9 @@ public class HelloController implements Initializable {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
         translateTransition.setToY(Ypos);
         translateTransition.play();
+        translateTransition.setOnFinished(event -> {
+            trafficController.addVehicle(car);
+        });
     }
 
     public static void moveSouth(Vehicle car) {
@@ -196,13 +384,13 @@ public class HelloController implements Initializable {
     public static void moveSouthUturn(Vehicle car) {
         int Ypos = 30;
 
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
         vehiclesSouth.remove(car);
         AllVehicles.remove(car);
         translateTransition.setToY(Ypos);
         translateTransition.setOnFinished(event -> {
             car.getImageView().setRotate(-90);
-            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.3), car.getImageView());
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.6), car.getImageView());
             int Xpos = -40;
             translateTransition2.setToX(Xpos);
             translateTransition2.play();
@@ -218,17 +406,9 @@ public class HelloController implements Initializable {
                     updatePositionsSouth();
                     ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
                 });
-
             });
-
-
-
-
         });
         translateTransition.play();
-
-
-
         cantSouth--;
         updatePositionsSouth();
     }
@@ -275,7 +455,79 @@ public class HelloController implements Initializable {
         AllVehicles.add(vehicle);
 
         InicialMovementEast(vehicle);
-        trafficController.addVehicle(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateVehicleEastUTurn() {
+        if(vehiclesEast.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "East", "East", carImage);
+        vehiclesEast.add(vehicle);
+        cantEast++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(305);
+        vehicle.getImageView().setTranslateY(-45);
+        vehicle.getImageView().setRotate(-90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementEast(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateVehicleEastRightTurn() {
+        if(vehiclesEast.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "North", "East", carImage);
+        vehiclesEast.add(vehicle);
+        cantEast++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(305);
+        vehicle.getImageView().setTranslateY(-45);
+        vehicle.getImageView().setRotate(-90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementEast(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateVehicleEastLeftTurn() {
+        if(vehiclesEast.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "South", "East", carImage);
+        vehiclesEast.add(vehicle);
+        cantEast++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(305);
+        vehicle.getImageView().setTranslateY(-45);
+        vehicle.getImageView().setRotate(-90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementEast(vehicle);
+//        trafficController.addVehicle(vehicle);
     }
 
     public void InicialMovementEast(Vehicle car) {
@@ -291,6 +543,9 @@ public class HelloController implements Initializable {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
         translateTransition.setToX(Xpos);
         translateTransition.play();
+        translateTransition.setOnFinished(event -> {
+            trafficController.addVehicle(car);
+        });
     }
 
     public static void moveEast(Vehicle car) {
@@ -351,7 +606,79 @@ public class HelloController implements Initializable {
         AllVehicles.add(vehicle);
 
         InicialMovementWest(vehicle);
-        trafficController.addVehicle(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateVehicleWestUTurn() {
+        if(vehiclesWest.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto02.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "West", "West", carImage);
+        vehiclesWest.add(vehicle);
+        cantWest++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-305);
+        vehicle.getImageView().setTranslateY(45);
+        vehicle.getImageView().setRotate(90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementWest(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateVehicleWestRightTurn() {
+        if(vehiclesWest.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto02.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "South", "West", carImage);
+        vehiclesWest.add(vehicle);
+        cantWest++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-305);
+        vehicle.getImageView().setTranslateY(45);
+        vehicle.getImageView().setRotate(90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementWest(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateVehicleWestLeftTurn() {
+        if(vehiclesWest.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto02.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(false, "North", "West", carImage);
+        vehiclesWest.add(vehicle);
+        cantWest++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-305);
+        vehicle.getImageView().setTranslateY(45);
+        vehicle.getImageView().setRotate(90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementWest(vehicle);
+//        trafficController.addVehicle(vehicle);
     }
 
     public void InicialMovementWest(Vehicle car) {
@@ -367,6 +694,9 @@ public class HelloController implements Initializable {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
         translateTransition.setToX(Xpos);
         translateTransition.play();
+        translateTransition.setOnFinished(event -> {
+            trafficController.addVehicle(car);
+        });
 
     }
 

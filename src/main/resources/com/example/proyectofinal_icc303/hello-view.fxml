@@ -14,28 +14,40 @@
         <HBox alignment="CENTER" spacing="10">
             <children>
                 <Button fx:id="createImageButtonNorth" onAction="#handleCreateVehicleNorth" text="Auto Norte" />
+                <Button fx:id="createImageButtonNorthUTurn" onAction="#handleCreateVehicleNorthUTurn" text="Norte U-Turn" />
+                <Button fx:id="createImageButtonNorthRightTurn" onAction="#handleCreateVehicleNorthRightTurn" text="Norte Right Turn" />
+                <Button fx:id="createImageButtonNorthLeftTurn" onAction="#handleCreateVehicleNorthLeftTurn" text="Norte Left Turn" />
                 <Button fx:id="createImageButtonSouth" onAction="#handleCreateVehicleSouth" text="Auto Sur" />
+                <Button fx:id="createImageButtonSouthUTurn" onAction="#handleCreateVehicleSouthUTurn" text="Sur U-Turn" />
+                <Button fx:id="createImageButtonSouthRightTurn" onAction="#handleCreateVehicleSouthRightTurn" text="Sur Right Turn" />
+                <Button fx:id="createImageButtonSouthLeftTurn" onAction="#handleCreateVehicleSouthLeftTurn" text="Sur Left Turn" />
                 <Button fx:id="createImageButtonEast" onAction="#handleCreateVehicleEast" text="Auto Este" />
+                <Button fx:id="createImageButtonEastUTurn" onAction="#handleCreateVehicleEastUTurn" text="Este U-Turn" />
+                <Button fx:id="createImageButtonEastRightTurn" onAction="#handleCreateVehicleEastRightTurn" text="Este Right Turn" />
+                <Button fx:id="createImageButtonEastLeftTurn" onAction="#handleCreateVehicleEastLeftTurn" text="Este Left Turn" />
                 <Button fx:id="createImageButtonWest" onAction="#handleCreateVehicleWest" text="Auto Oeste" />
+                <Button fx:id="createImageButtonWestUTurn" onAction="#handleCreateVehicleWestUTurn" text="Oeste U-Turn" />
+                <Button fx:id="createImageButtonWestRightTurn" onAction="#handleCreateVehicleWestRightTurn" text="Oeste Right Turn" />
+                <Button fx:id="createImageButtonWestLeftTurn" onAction="#handleCreateVehicleWestLeftTurn" text="Oeste Left Turn" />
                 <Button fx:id="pausa" onAction="#pausa" text="Pausa" />
             </children>
         </HBox>
 
         <HBox alignment="CENTER" spacing="10">
-           <children>
+            <children>
 
-           </children>
+            </children>
         </HBox>
         <AnchorPane fx:id="imageContainer" prefHeight="600.0" prefWidth="800.0" />
-      <StackPane fx:id="stackContainer" prefHeight="150.0" prefWidth="200.0">
-         <children>
-              <ImageView fx:id="backgroundImage" fitHeight="700.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                      <Image url="@/com/example/proyectofinal_icc303/Fondo.png" />
-                  </image>
-              </ImageView>
-         </children>
-      </StackPane>
+        <StackPane fx:id="stackContainer" prefHeight="150.0" prefWidth="200.0">
+            <children>
+                <ImageView fx:id="backgroundImage" fitHeight="700.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/com/example/proyectofinal_icc303/Fondo.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </StackPane>
     </children>
     <padding>
         <Insets left="1.0" right="1.0" />
