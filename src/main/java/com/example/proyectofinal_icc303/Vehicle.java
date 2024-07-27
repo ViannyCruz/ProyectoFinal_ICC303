@@ -78,6 +78,7 @@ public class Vehicle implements  Comparable<Vehicle> {
     }
 
 
+
     public ImageView getImageView() {
         return imageView;
     }

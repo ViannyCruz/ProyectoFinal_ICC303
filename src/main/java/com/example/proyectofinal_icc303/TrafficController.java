@@ -1,6 +1,7 @@
 package com.example.proyectofinal_icc303;
 
 import javafx.animation.PauseTransition;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import java.util.LinkedList;
@@ -16,6 +17,7 @@ public class TrafficController {
     private volatile boolean crossingSouthOccupied = false;
     private volatile boolean crossingEastOccupied = false;
     private volatile boolean crossingWestOccupied = false;
+
 
 
 
@@ -54,22 +56,26 @@ public class TrafficController {
 
     private synchronized void addVehicleAnimation(Vehicle vehicle) {
         tasks.offer(() -> {
+            //VIENE DEL NORTE Y SIGUE DERECHO
             if (vehicle.getCalle().equals("North") && vehicle.getDirection().equals("South")) {
-                while (crossingEastOccupied) {
+
+                while (crossingWestOccupied) {
                     try {
                         wait(); // Espera hasta que el cruce se libere
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     }
                 }
-                crossingEastOccupied = true; // Marca el cruce como ocupado
+                crossingWestOccupied = true; // Marca el cruce como ocupado
 
                 PauseTransition pause = new PauseTransition(Duration.millis(1200));
                 pause.setOnFinished(event -> {
 
                     HelloController.moveNorth(vehicle);
 
-                    crossingEastOccupied = false; // Libera el cruce
+                    HelloController.updatePositionsNorth();
+
+                    crossingWestOccupied = false; // Libera el cruce
                     synchronized (this) {
                         notifyAll(); // Notifica a otros vehículos que el cruce está libre
                     }
@@ -77,6 +83,7 @@ public class TrafficController {
                 });
                 pause.play();
             }
+            //VIENE DEL NORTE Y DA LA VUELTA EN U
             if (vehicle.getCalle().equals("North") && vehicle.getDirection().equals("North")) {
                 while (crossingNorthOccupied||crossingWestOccupied||crossingEastOccupied) {
                     try {
@@ -100,6 +107,35 @@ public class TrafficController {
                     crossingNorthOccupied = false;
                     crossingWestOccupied = false;
                     crossingEastOccupied = false;
+                    synchronized (this) {
+                        notifyAll(); // Notifica a otros vehículos que el cruce está libre
+                    }
+                    scheduleNext();
+                });
+                pause.play();
+            }
+            //VIENE DEL NORTE Y GIRA A LA DERECHA
+            if (vehicle.getCalle().equals("North") && vehicle.getDirection().equals("West")) {
+                while (crossingNorthOccupied||crossingWestOccupied) {
+                    try {
+                        wait(); // Espera hasta que el cruce se libere
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+                crossingNorthOccupied = true;
+                crossingWestOccupied = true;
+
+
+                PauseTransition pause = new PauseTransition(Duration.millis(1200));
+                pause.setOnFinished(event -> {
+
+
+                    HelloController.moveNorthRightTurn(vehicle);
+
+
+                    crossingNorthOccupied = false;
+                    crossingWestOccupied = false;
                     synchronized (this) {
                         notifyAll(); // Notifica a otros vehículos que el cruce está libre
                     }

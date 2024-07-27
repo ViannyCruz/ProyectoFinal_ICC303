@@ -1,6 +1,7 @@
 package com.example.proyectofinal_icc303;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -163,19 +164,23 @@ public class HelloController implements Initializable {
     public void InicialMovementNorth(Vehicle car) {
         int Ypos = -320;
 
-        if (cantNorth == 1)
+        if (cantNorth == 1) {
             Ypos = -130;
-        else if (cantNorth == 2)
+        } else if (cantNorth == 2) {
             Ypos = -220;
-        else if (cantNorth == 3)
+        } else if (cantNorth == 3) {
             Ypos = -310;
+        }
 
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
-        translateTransition.setToY(Ypos);
-        translateTransition.play();
-        translateTransition.setOnFinished(event -> {
+        TranslateTransition initialTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
+        initialTransition.setToY(Ypos);
+
+        initialTransition.setOnFinished(event -> {
             trafficController.addVehicle(car);
         });
+
+        SequentialTransition sequentialTransition = new SequentialTransition(initialTransition);
+        sequentialTransition.play();
     }
 
     public static void moveNorth(Vehicle car) {
@@ -192,7 +197,7 @@ public class HelloController implements Initializable {
         });
         translateTransition.play();
         cantNorth--;
-        updatePositionsNorth();
+//        updatePositionsNorth();
     }
 
     public static void moveNorthUTurn(Vehicle car) {
@@ -229,21 +234,58 @@ public class HelloController implements Initializable {
 
     }
 
-    private static void updatePositionsNorth() {
+    public static void moveNorthRightTurn(Vehicle car) {
+
+        int Ypos = -40;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.6), car.getImageView());
+        vehiclesNorth.remove(car);
+        AllVehicles.remove(car);
+        translateTransition.setToY(Ypos);
+        translateTransition.setOnFinished(event -> {
+            car.getImageView().setRotate(-90);
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.2), car.getImageView());
+
+            translateTransition2.play();
+
+            translateTransition2.setOnFinished(event2 -> {
+                car.getImageView().setRotate(270);
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
+                translateTransition3.setToX(-400);
+                translateTransition3.play();
+
+                translateTransition3.setOnFinished(event3 -> {
+                    vehiclesNorth.remove(car);
+                    updatePositionsNorth();
+                    ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                });
+            });
+        });
+        translateTransition.play();
+        cantNorth--;
+        updatePositionsNorth();
+
+    }
+
+    static void updatePositionsNorth() {
         int index = 0;
         for (Vehicle vehicle : vehiclesNorth) {
             int Ypos = -320;
 
-            if (index == 0)
+            if (index == 0) {
                 Ypos = -130;
-            else if (index == 1)
+            } else if (index == 1) {
                 Ypos = -220;
-            else if (index == 2)
+            } else if (index == 2) {
                 Ypos = -310;
+            }
 
-            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), vehicle.getImageView());
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
             translateTransition.setToY(Ypos);
-            translateTransition.play();
+
+            SequentialTransition sequentialTransition = new SequentialTransition(translateTransition);
+            sequentialTransition.play();
+            sequentialTransition.onFinishedProperty();
             index++;
         }
     }
