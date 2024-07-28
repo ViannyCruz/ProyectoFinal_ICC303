@@ -6,6 +6,9 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -21,21 +24,20 @@ import java.util.concurrent.PriorityBlockingQueue;
 public class HelloController implements Initializable {
 
     public ImageView backgroundImage;
-    public Button moverAutoPrioridad;
-    public Button pausa;
-    @FXML
-    private Button createImageButtonNorth;
-    @FXML
-    private Button createImageButtonSouth;
-    @FXML
-    private Button createImageButtonEast;
-    @FXML
-    private Button createImageButtonWest;
 
     @FXML
-    private AnchorPane imageContainer;
-    @FXML
     private StackPane stackContainer;
+
+    @FXML
+    private ToggleGroup directionGroup;
+
+    @FXML
+    private ToggleButton toggleNorth, toggleSouth, toggleEast, toggleWest;
+
+    @FXML
+    private RadioButton emergencia;
+
+
 
     private List<Vehicle> vehicles = new ArrayList<>();
     private PriorityBlockingQueue<Vehicle> vehicleQueue = new PriorityBlockingQueue<>();
@@ -43,11 +45,196 @@ public class HelloController implements Initializable {
     private int numVehiculos = 0;
 
     @Override
+    @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cantNorth = 0;
         cantSouth = 0;
         cantEast = 0;
         cantWest = 0;
+        directionGroup = new ToggleGroup();
+        toggleNorth.setToggleGroup(directionGroup);
+        toggleSouth.setToggleGroup(directionGroup);
+        toggleEast.setToggleGroup(directionGroup);
+        toggleWest.setToggleGroup(directionGroup);
+    }
+
+    private String getSelectedDirection() {
+        ToggleButton selectedToggle = (ToggleButton) directionGroup.getSelectedToggle();
+        if (selectedToggle != null) {
+            return selectedToggle.getText();
+        }
+        return null;
+    }
+
+    @FXML
+    private void handleStraight() {
+        if(emergencia.isSelected()){
+            String direction = getSelectedDirection();
+            if (direction != null) {
+                switch (direction) {
+                    case "Norte":
+                        handleCreateEmergencyVehicleNorth();
+                        break;
+                    case "Sur":
+                        handleCreateEmergencyVehicleSouth();
+                        break;
+                    case "Este":
+                        handleCreateEmergencyVehicleEast();
+                        break;
+                    case "Oeste":
+                        handleCreateEmergencyVehicleWest();
+                        break;
+                }
+                }
+
+        } else{
+            String direction = getSelectedDirection();
+            if (direction != null) {
+                switch (direction) {
+                    case "Norte":
+                        handleCreateVehicleNorth();
+                        break;
+                    case "Sur":
+                        handleCreateVehicleSouth();
+                        break;
+                    case "Este":
+                        handleCreateVehicleEast();
+                        break;
+                    case "Oeste":
+                        handleCreateVehicleWest();
+                        break;
+                }
+
+            }
+        }
+
+
+    }
+
+    @FXML
+    private void handleUTurn() {
+        if(emergencia.isSelected()){
+            String direction = getSelectedDirection();
+            if (direction != null) {
+                switch (direction) {
+                    case "Norte":
+                        handleCreateEmergencyVehicleNorthUTurn();
+                        break;
+                    case "Sur":
+                        handleCreateEmergencyVehicleSouthUTurn();
+                        break;
+                    case "Este":
+                        handleCreateEmergencyVehicleEastUTurn();
+                        break;
+                    case "Oeste":
+                        handleCreateEmergencyVehicleWestUTurn();
+                        break;
+                }
+            }
+        }else{
+            String direction = getSelectedDirection();
+            if (direction != null) {
+                switch (direction) {
+                    case "Norte":
+                        handleCreateVehicleNorthUTurn();
+                        break;
+                    case "Sur":
+                        handleCreateVehicleSouthUTurn();
+                        break;
+                    case "Este":
+                        handleCreateVehicleEastUTurn();
+                        break;
+                    case "Oeste":
+                        handleCreateVehicleWestUTurn();
+                        break;
+                }
+            }
+        }
+
+    }
+
+    @FXML
+    private void handleLeftTurn() {
+        if(emergencia.isSelected()){
+            String direction = getSelectedDirection();
+            if (direction != null) {
+                switch (direction) {
+                    case "Norte":
+                        handleCreateEmergencyVehicleNorthLeftTurn();
+                        break;
+                    case "Sur":
+                        handleCreateEmergencyVehicleSouthLeftTurn();
+                        break;
+                    case "Este":
+                        handleCreateEmergencyVehicleEastLeftTurn();
+                        break;
+                    case "Oeste":
+                        handleCreateEmergencyVehicleWestLeftTurn();
+                        break;
+                }
+            }
+        }else{
+            String direction = getSelectedDirection();
+            if (direction != null) {
+                switch (direction) {
+                    case "Norte":
+                        handleCreateVehicleNorthLeftTurn();
+                        break;
+                    case "Sur":
+                        handleCreateVehicleSouthLeftTurn();
+                        break;
+                    case "Este":
+                        handleCreateVehicleEastLeftTurn();
+                        break;
+                    case "Oeste":
+                        handleCreateVehicleWestLeftTurn();
+                        break;
+                }
+            }
+        }
+
+    }
+
+    @FXML
+    private void handleRightTurn() {
+        if(emergencia.isSelected()){
+            String direction = getSelectedDirection();
+            if (direction != null) {
+                switch (direction) {
+                    case "Norte":
+                        handleCreateEmergencyVehicleNorthRightTurn();
+                        break;
+                    case "Sur":
+                        handleCreateEmergencyVehicleSouthRightTurn();
+                        break;
+                    case "Este":
+                        handleCreateEmergencyVehicleEastRightTurn();
+                        break;
+                    case "Oeste":
+                        handleCreateEmergencyVehicleWestRightTurn();
+                        break;
+                }
+            }
+        }else{
+            String direction = getSelectedDirection();
+            if (direction != null) {
+                switch (direction) {
+                    case "Norte":
+                        handleCreateVehicleNorthRightTurn();
+                        break;
+                    case "Sur":
+                        handleCreateVehicleSouthRightTurn();
+                        break;
+                    case "Este":
+                        handleCreateVehicleEastRightTurn();
+                        break;
+                    case "Oeste":
+                        handleCreateVehicleWestRightTurn();
+                        break;
+                }
+            }
+        }
+
     }
 
     static int cantNorth = 0;
@@ -70,6 +257,31 @@ public class HelloController implements Initializable {
         carImage.setFitWidth(60);
 
         Vehicle vehicle = new Vehicle(false, "South", "North", carImage);
+        vehiclesNorth.add(vehicle);
+        cantNorth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-45);
+        vehicle.getImageView().setTranslateY(-320);
+        vehicle.getImageView().setRotate(180);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementNorth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateEmergencyVehicleNorth() {
+        if(vehiclesNorth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+
+        Vehicle vehicle = new Vehicle(true, "South", "North", carImage);
         vehiclesNorth.add(vehicle);
         cantNorth++;
         numVehiculos++;
@@ -111,6 +323,31 @@ public class HelloController implements Initializable {
 //        trafficController.addVehicle(vehicle);
     }
 
+    public void handleCreateEmergencyVehicleNorthUTurn() {
+        if(vehiclesNorth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+
+        Vehicle vehicle = new Vehicle(true, "North", "North", carImage);
+        vehiclesNorth.add(vehicle);
+        cantNorth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-45);
+        vehicle.getImageView().setTranslateY(-320);
+        vehicle.getImageView().setRotate(180);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementNorth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
     public void handleCreateVehicleNorthRightTurn() {
         if(vehiclesNorth.size() == 3) {
             return;
@@ -136,6 +373,31 @@ public class HelloController implements Initializable {
 //        trafficController.addVehicle(vehicle);
     }
 
+    public void handleCreateEmergencyVehicleNorthRightTurn() {
+        if(vehiclesNorth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+
+        Vehicle vehicle = new Vehicle(true, "West", "North", carImage);
+        vehiclesNorth.add(vehicle);
+        cantNorth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-45);
+        vehicle.getImageView().setTranslateY(-320);
+        vehicle.getImageView().setRotate(180);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementNorth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
     public void handleCreateVehicleNorthLeftTurn() {
         if(vehiclesNorth.size() == 3) {
             return;
@@ -145,6 +407,31 @@ public class HelloController implements Initializable {
         carImage.setFitWidth(60);
 
         Vehicle vehicle = new Vehicle(false, "East", "North", carImage);
+        vehiclesNorth.add(vehicle);
+        cantNorth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-45);
+        vehicle.getImageView().setTranslateY(-320);
+        vehicle.getImageView().setRotate(180);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementNorth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateEmergencyVehicleNorthLeftTurn() {
+        if(vehiclesNorth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+
+        Vehicle vehicle = new Vehicle(true, "East", "North", carImage);
         vehiclesNorth.add(vehicle);
         cantNorth++;
         numVehiculos++;
@@ -347,6 +634,30 @@ public class HelloController implements Initializable {
 //        trafficController.addVehicle(vehicle);
     }
 
+    public void handleCreateEmergencyVehicleSouth() {
+        if(vehiclesSouth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "North", "South", carImage);
+        vehiclesSouth.add(vehicle);
+        cantSouth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(45);
+        vehicle.getImageView().setTranslateY(300);
+        vehicle.getImageView().setRotate(0);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementSouth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
     public void handleCreateVehicleSouthUTurn() {
         if(vehiclesSouth.size() == 3) {
             return;
@@ -355,6 +666,31 @@ public class HelloController implements Initializable {
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "South", "South", carImage);
+        vehiclesSouth.add(vehicle);
+        cantSouth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(45);
+        vehicle.getImageView().setTranslateY(300);
+        vehicle.getImageView().setRotate(0);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementSouth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+
+    public void handleCreateEmergencyVehicleSouthUTurn() {
+        if(vehiclesSouth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "South", "South", carImage);
         vehiclesSouth.add(vehicle);
         cantSouth++;
         numVehiculos++;
@@ -395,6 +731,30 @@ public class HelloController implements Initializable {
 //        trafficController.addVehicle(vehicle);
     }
 
+    public void handleCreateEmergencyVehicleSouthRightTurn() {
+        if(vehiclesSouth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "East", "South", carImage);
+        vehiclesSouth.add(vehicle);
+        cantSouth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(45);
+        vehicle.getImageView().setTranslateY(300);
+        vehicle.getImageView().setRotate(0);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementSouth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
     public void handleCreateVehicleSouthLeftTurn() {
         if(vehiclesSouth.size() == 3) {
             return;
@@ -403,6 +763,31 @@ public class HelloController implements Initializable {
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "West", "South", carImage);
+        vehiclesSouth.add(vehicle);
+        cantSouth++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(45);
+        vehicle.getImageView().setTranslateY(300);
+        vehicle.getImageView().setRotate(0);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementSouth(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+
+    public void handleCreateEmergencyVehicleSouthLeftTurn() {
+        if(vehiclesSouth.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "West", "South", carImage);
         vehiclesSouth.add(vehicle);
         cantSouth++;
         numVehiculos++;
@@ -605,6 +990,31 @@ public class HelloController implements Initializable {
     }
 
 
+    public void handleCreateEmergencyVehicleEast() {
+        if(vehiclesEast.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "West", "East", carImage);
+        vehiclesEast.add(vehicle);
+        cantEast++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(305);
+        vehicle.getImageView().setTranslateY(-45);
+        vehicle.getImageView().setRotate(-90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementEast(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+
     public void handleCreateVehicleEastUTurn() {
         if(vehiclesEast.size() == 3) {
             return;
@@ -613,6 +1023,31 @@ public class HelloController implements Initializable {
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "East", "East", carImage);
+        vehiclesEast.add(vehicle);
+        cantEast++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(305);
+        vehicle.getImageView().setTranslateY(-45);
+        vehicle.getImageView().setRotate(-90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementEast(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+
+    public void handleCreateEmergencyVehicleEastUTurn() {
+        if(vehiclesEast.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "East", "East", carImage);
         vehiclesEast.add(vehicle);
         cantEast++;
         numVehiculos++;
@@ -653,6 +1088,31 @@ public class HelloController implements Initializable {
 //        trafficController.addVehicle(vehicle);
     }
 
+    public void handleCreateEmergencyVehicleEastRightTurn() {
+        if(vehiclesEast.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "North", "East", carImage);
+        vehiclesEast.add(vehicle);
+        cantEast++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(305);
+        vehicle.getImageView().setTranslateY(-45);
+        vehicle.getImageView().setRotate(-90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementEast(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+
     public void handleCreateVehicleEastLeftTurn() {
         if(vehiclesEast.size() == 3) {
             return;
@@ -661,6 +1121,31 @@ public class HelloController implements Initializable {
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "South", "East", carImage);
+        vehiclesEast.add(vehicle);
+        cantEast++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(305);
+        vehicle.getImageView().setTranslateY(-45);
+        vehicle.getImageView().setRotate(-90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementEast(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+
+    public void handleCreateEmergencyVehicleEastLeftTurn() {
+        if(vehiclesEast.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "South", "East", carImage);
         vehiclesEast.add(vehicle);
         cantEast++;
         numVehiculos++;
@@ -860,6 +1345,33 @@ public class HelloController implements Initializable {
 //        trafficController.addVehicle(vehicle);
     }
 
+
+    public void handleCreateEmergencyVehicleWest() {
+        if(vehiclesWest.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "East", "West", carImage);
+        vehiclesWest.add(vehicle);
+        cantWest++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-305);
+        vehicle.getImageView().setTranslateY(45);
+        vehicle.getImageView().setRotate(90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementWest(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+
+
     public void handleCreateVehicleWestUTurn() {
         if(vehiclesWest.size() == 3) {
             return;
@@ -868,6 +1380,30 @@ public class HelloController implements Initializable {
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "West", "West", carImage);
+        vehiclesWest.add(vehicle);
+        cantWest++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-305);
+        vehicle.getImageView().setTranslateY(45);
+        vehicle.getImageView().setRotate(90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementWest(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void handleCreateEmergencyVehicleWestUTurn() {
+        if(vehiclesWest.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "West", "West", carImage);
         vehiclesWest.add(vehicle);
         cantWest++;
         numVehiculos++;
@@ -908,6 +1444,30 @@ public class HelloController implements Initializable {
 //        trafficController.addVehicle(vehicle);
     }
 
+    public void handleCreateEmergencyVehicleWestRightTurn() {
+        if(vehiclesWest.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "South", "West", carImage);
+        vehiclesWest.add(vehicle);
+        cantWest++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-305);
+        vehicle.getImageView().setTranslateY(45);
+        vehicle.getImageView().setRotate(90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementWest(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
     public void handleCreateVehicleWestLeftTurn() {
         if(vehiclesWest.size() == 3) {
             return;
@@ -916,6 +1476,31 @@ public class HelloController implements Initializable {
         carImage.setFitHeight(80);
         carImage.setFitWidth(60);
         Vehicle vehicle = new Vehicle(false, "North", "West", carImage);
+        vehiclesWest.add(vehicle);
+        cantWest++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(-305);
+        vehicle.getImageView().setTranslateY(45);
+        vehicle.getImageView().setRotate(90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementWest(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+
+    public void handleCreateEmergencyVehicleWestLeftTurn() {
+        if(vehiclesWest.size() == 3) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+        carImage.setFitHeight(80);
+        carImage.setFitWidth(60);
+        Vehicle vehicle = new Vehicle(true, "North", "West", carImage);
         vehiclesWest.add(vehicle);
         cantWest++;
         numVehiculos++;

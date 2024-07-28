@@ -6,6 +6,7 @@ import javafx.util.Duration;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -21,7 +22,10 @@ public class TrafficController {
 
 
 
+
     private PriorityBlockingQueue<Vehicle> queue = new PriorityBlockingQueue<>();
+    private PriorityBlockingQueue<Vehicle> Emergencyqueue = new PriorityBlockingQueue<>();
+
     private final AtomicBoolean running = new AtomicBoolean(false);
     private Thread workerThread;
 
@@ -39,11 +43,34 @@ public class TrafficController {
 
     private void processQueue() {
         while (running.get()) {
-            if (!queue.isEmpty()) {
-                Vehicle vehicle = queue.poll();
-                if (vehicle != null) {
+            if(!Emergencyqueue.isEmpty()){
+                Vehicle emgvehicle = Emergencyqueue.poll();
+                for (Vehicle vehicle : queue) {
+                    if(vehicle.getCalle().equals(emgvehicle.getCalle())){
+                        addVehicleAnimation(vehicle);
+                        if(vehicle==emgvehicle){
+                            queue.remove(vehicle);
+                            break;
+                        }
+                        queue.remove(vehicle);
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
 
-                    addVehicleAnimation(vehicle);
+                }
+            }else {
+                if (!queue.isEmpty()) {
+
+
+                    Vehicle vehicle = queue.poll();
+                    if (vehicle != null) {
+
+                        addVehicleAnimation(vehicle);
+
+                    }
 
                 }
             }
@@ -623,6 +650,9 @@ public class TrafficController {
     }
 
     public void addVehicle(Vehicle vehicle) {
+        if(vehicle.isEmergency()){
+            Emergencyqueue.add(vehicle);
+        }
         queue.add(vehicle);
     }
 }
