@@ -210,14 +210,14 @@ public class HelloController implements Initializable {
         translateTransition.setToY(Ypos);
         translateTransition.setOnFinished(event -> {
             car.getImageView().setRotate(90);
-            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.6), car.getImageView());
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.5), car.getImageView());
             int Xpos = 40;
             translateTransition2.setToX(Xpos);
             translateTransition2.play();
 
             translateTransition2.setOnFinished(event2 -> {
                 car.getImageView().setRotate(360);
-                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(3), car.getImageView());
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
                 translateTransition3.setToY(-400);
                 translateTransition3.play();
 
@@ -252,6 +252,39 @@ public class HelloController implements Initializable {
                 car.getImageView().setRotate(270);
                 TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
                 translateTransition3.setToX(-400);
+                translateTransition3.play();
+
+                translateTransition3.setOnFinished(event3 -> {
+                    vehiclesNorth.remove(car);
+                    updatePositionsNorth();
+                    ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                });
+            });
+        });
+        translateTransition.play();
+        cantNorth--;
+        updatePositionsNorth();
+
+    }
+
+    public static void moveNorthLeftTurn(Vehicle car) {
+
+        int Ypos = 45;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.6), car.getImageView());
+        vehiclesNorth.remove(car);
+        AllVehicles.remove(car);
+        translateTransition.setToY(Ypos);
+        translateTransition.setOnFinished(event -> {
+            car.getImageView().setRotate(90);
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.2), car.getImageView());
+
+            translateTransition2.play();
+
+            translateTransition2.setOnFinished(event2 -> {
+                car.getImageView().setRotate(-270);
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
+                translateTransition3.setToX(430);
                 translateTransition3.play();
 
                 translateTransition3.setOnFinished(event3 -> {
@@ -397,7 +430,7 @@ public class HelloController implements Initializable {
         else if (cantSouth == 3)
             Ypos = 310;
 
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
         translateTransition.setToY(Ypos);
         translateTransition.play();
         translateTransition.setOnFinished(event -> {
@@ -418,12 +451,17 @@ public class HelloController implements Initializable {
             ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
                 });
         translateTransition.play();
+        translateTransition.setOnFinished(event -> {
+            vehiclesSouth.remove(car);
+            updatePositionsSouth();
+            ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+        });
         cantSouth--;
         updatePositionsSouth();
     }
 
 
-    public static void moveSouthUturn(Vehicle car) {
+    public static void moveSouthUTurn(Vehicle car) {
         int Ypos = 30;
 
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
@@ -432,14 +470,14 @@ public class HelloController implements Initializable {
         translateTransition.setToY(Ypos);
         translateTransition.setOnFinished(event -> {
             car.getImageView().setRotate(-90);
-            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.6), car.getImageView());
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.5), car.getImageView());
             int Xpos = -40;
             translateTransition2.setToX(Xpos);
             translateTransition2.play();
 
             translateTransition2.setOnFinished(event2 -> {
                 car.getImageView().setRotate(-180);
-                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(3), car.getImageView());
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
                 translateTransition3.setToY(400);
                 translateTransition3.play();
 
@@ -453,6 +491,72 @@ public class HelloController implements Initializable {
         translateTransition.play();
         cantSouth--;
         updatePositionsSouth();
+    }
+
+    public static void moveSouthRightTurn(Vehicle car) {
+
+        int Ypos = 40;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.6), car.getImageView());
+        vehiclesSouth.remove(car);
+        AllVehicles.remove(car);
+        translateTransition.setToY(Ypos);
+        translateTransition.setOnFinished(event -> {
+            car.getImageView().setRotate(90);
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.2), car.getImageView());
+
+            translateTransition2.play();
+
+            translateTransition2.setOnFinished(event2 -> {
+                car.getImageView().setRotate(-270);
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
+                translateTransition3.setToX(400);
+                translateTransition3.play();
+
+                translateTransition3.setOnFinished(event3 -> {
+                    vehiclesSouth.remove(car);
+                    updatePositionsSouth();
+                    ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                });
+            });
+        });
+        translateTransition.play();
+        cantSouth--;
+        updatePositionsSouth();
+
+    }
+
+    public static void moveSouthLeftTurn(Vehicle car) {
+
+        int Ypos = -45;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.6), car.getImageView());
+        vehiclesSouth.remove(car);
+        AllVehicles.remove(car);
+        translateTransition.setToY(Ypos);
+        translateTransition.setOnFinished(event -> {
+            car.getImageView().setRotate(-90);
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.2), car.getImageView());
+
+            translateTransition2.play();
+
+            translateTransition2.setOnFinished(event2 -> {
+                car.getImageView().setRotate(270);
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
+                translateTransition3.setToX(-430);
+                translateTransition3.play();
+
+                translateTransition3.setOnFinished(event3 -> {
+                    vehiclesEast.remove(car);
+                    updatePositionsSouth();
+                    ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                });
+            });
+        });
+        translateTransition.play();
+        cantSouth--;
+        updatePositionsSouth();
+
     }
 
 
@@ -469,7 +573,7 @@ public class HelloController implements Initializable {
             else if (index == 2)
                 Ypos = 310;
 
-            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), vehicle.getImageView());
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
             translateTransition.setToY(Ypos);
             translateTransition.play();
             index++;
@@ -499,6 +603,7 @@ public class HelloController implements Initializable {
         InicialMovementEast(vehicle);
 //        trafficController.addVehicle(vehicle);
     }
+
 
     public void handleCreateVehicleEastUTurn() {
         if(vehiclesEast.size() == 3) {
@@ -572,6 +677,10 @@ public class HelloController implements Initializable {
 //        trafficController.addVehicle(vehicle);
     }
 
+
+
+
+
     public void InicialMovementEast(Vehicle car) {
         int Xpos = 305;
 
@@ -582,13 +691,15 @@ public class HelloController implements Initializable {
         else if (cantEast == 3)
             Xpos = 310;
 
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
         translateTransition.setToX(Xpos);
         translateTransition.play();
         translateTransition.setOnFinished(event -> {
             trafficController.addVehicle(car);
         });
     }
+
+
 
     public static void moveEast(Vehicle car) {
         int Xpos = -420;
@@ -605,10 +716,108 @@ public class HelloController implements Initializable {
         });
         translateTransition.play();
         cantEast--;
+    }
+
+    public static void moveEastUTurn(Vehicle car) {
+        int Xpos = 30;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
+        vehiclesEast.remove(car);
+        AllVehicles.remove(car);
+        translateTransition.setToX(Xpos);
+        translateTransition.setOnFinished(event -> {
+            car.getImageView().setRotate(180);
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.5), car.getImageView());
+            int Ypos = 45;
+            translateTransition2.setToY(Ypos);
+            translateTransition2.play();
+
+            translateTransition2.setOnFinished(event2 -> {
+                car.getImageView().setRotate(90);
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
+                translateTransition3.setToX(400);
+                translateTransition3.play();
+
+                translateTransition3.setOnFinished(event3 -> {
+                    vehiclesEast.remove(car);
+                    updatePositionsEast();
+                    ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                });
+            });
+        });
+        translateTransition.play();
+        cantEast--;
         updatePositionsEast();
     }
 
-    private static void updatePositionsEast() {
+    public static void moveEastRightTurn(Vehicle car) {
+
+        int Xpos = 40;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.6), car.getImageView());
+        vehiclesEast.remove(car);
+        AllVehicles.remove(car);
+        translateTransition.setToX(Xpos);
+        translateTransition.setOnFinished(event -> {
+            car.getImageView().setRotate(360);
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.2), car.getImageView());
+
+            translateTransition2.play();
+
+            translateTransition2.setOnFinished(event2 -> {
+                car.getImageView().setRotate(360);
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
+                translateTransition3.setToY(-400);
+                translateTransition3.play();
+
+                translateTransition3.setOnFinished(event3 -> {
+                    vehiclesEast.remove(car);
+                    updatePositionsEast();
+                    ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                });
+            });
+        });
+        translateTransition.play();
+        cantEast--;
+        updatePositionsEast();
+
+    }
+
+    public static void moveEastLeftTurn(Vehicle car) {
+
+        int Xpos = -45;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.6), car.getImageView());
+        vehiclesEast.remove(car);
+        AllVehicles.remove(car);
+        translateTransition.setToX(Xpos);
+        translateTransition.setOnFinished(event -> {
+            car.getImageView().setRotate(-90);
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.2), car.getImageView());
+
+            translateTransition2.play();
+
+            translateTransition2.setOnFinished(event2 -> {
+                car.getImageView().setRotate(180);
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
+                translateTransition3.setToY(430);
+                translateTransition3.play();
+
+                translateTransition3.setOnFinished(event3 -> {
+                    vehiclesEast.remove(car);
+                    updatePositionsEast();
+                    ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                });
+            });
+        });
+        translateTransition.play();
+        cantEast--;
+        updatePositionsEast();
+
+    }
+
+
+    static void updatePositionsEast() {
         int index = 0;
         for (Vehicle vehicle : vehiclesEast) {
             int Xpos = 305;
@@ -620,7 +829,7 @@ public class HelloController implements Initializable {
             else if (index == 2)
                 Xpos = 310;
 
-            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), vehicle.getImageView());
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
             translateTransition.setToX(Xpos);
             translateTransition.play();
             index++;
@@ -733,7 +942,7 @@ public class HelloController implements Initializable {
         else if (cantWest == 3)
             Xpos = -310;
 
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
         translateTransition.setToX(Xpos);
         translateTransition.play();
         translateTransition.setOnFinished(event -> {
@@ -756,11 +965,123 @@ public class HelloController implements Initializable {
         });
         translateTransition.play();
         cantWest--;
+
+    }
+
+
+    public static void moveWestUTurn(Vehicle car) {
+        int Xpos = -30;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
+        vehiclesWest.remove(car);
+        AllVehicles.remove(car);
+        translateTransition.setToX(Xpos);
+        translateTransition.setOnFinished(event -> {
+            car.getImageView().setRotate(360);
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.5), car.getImageView());
+            int Ypos = -45;
+            translateTransition2.setToY(Ypos);
+            translateTransition2.play();
+
+            translateTransition2.setOnFinished(event2 -> {
+                car.getImageView().setRotate(-90);
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
+                translateTransition3.setToX(-400);
+                translateTransition3.play();
+
+                translateTransition3.setOnFinished(event3 -> {
+                    vehiclesWest.remove(car);
+                    updatePositionsWest();
+                    ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                });
+            });
+        });
+        translateTransition.play();
+        cantWest--;
+        updatePositionsWest();
+    }
+
+
+
+    public static void moveWestRightTurn(Vehicle car) {
+
+        int Xpos = -40;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.6), car.getImageView());
+        vehiclesWest.remove(car);
+        AllVehicles.remove(car);
+        translateTransition.setToX(Xpos);
+        translateTransition.setOnFinished(event -> {
+            car.getImageView().setRotate(-180);
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.2), car.getImageView());
+
+            translateTransition2.play();
+
+            translateTransition2.setOnFinished(event2 -> {
+                car.getImageView().setRotate(-180);
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
+                translateTransition3.setToY(400);
+                translateTransition3.play();
+
+                translateTransition3.setOnFinished(event3 -> {
+                    vehiclesWest.remove(car);
+                    updatePositionsWest();
+                    ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                });
+            });
+        });
+        translateTransition.play();
+        cantWest--;
         updatePositionsWest();
 
     }
 
-    private static void updatePositionsWest() {
+
+    public static void moveWestLeftTurn(Vehicle car) {
+
+        int Xpos = 45;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.6), car.getImageView());
+        vehiclesWest.remove(car);
+        AllVehicles.remove(car);
+        translateTransition.setToX(Xpos);
+        translateTransition.setOnFinished(event -> {
+            car.getImageView().setRotate(-360);
+            TranslateTransition translateTransition2 = new TranslateTransition(Duration.seconds(0.2), car.getImageView());
+
+            translateTransition2.play();
+
+            translateTransition2.setOnFinished(event2 -> {
+                car.getImageView().setRotate(360);
+                TranslateTransition translateTransition3 = new TranslateTransition(Duration.seconds(1), car.getImageView());
+                translateTransition3.setToY(-430);
+                translateTransition3.play();
+
+                translateTransition3.setOnFinished(event3 -> {
+                    vehiclesWest.remove(car);
+                    updatePositionsWest();
+                    ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                });
+            });
+        });
+        translateTransition.play();
+        cantWest--;
+        updatePositionsWest();
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    static void updatePositionsWest() {
         int index = 0;
         for (Vehicle vehicle : vehiclesWest) {
             int Xpos = -305;
