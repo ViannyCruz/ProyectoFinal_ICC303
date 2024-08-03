@@ -3,6 +3,7 @@ package com.example.proyectofinal_icc303;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,9 +17,8 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.PriorityBlockingQueue;
 
 public class HelloController implements Initializable {
@@ -56,7 +56,310 @@ public class HelloController implements Initializable {
         toggleSouth.setToggleGroup(directionGroup);
         toggleEast.setToggleGroup(directionGroup);
         toggleWest.setToggleGroup(directionGroup);
+
+       // handleCreateVehicle_CenterCenterCenter();
+       // handleCreateVehicle_CenterCenterCenter();
+       // handleCreateVehicle_CenterCenterCenter();
+
     }
+
+
+
+    //ESCENARIO 2
+    TrafficControllerEscenario02 trafficControllerEscenario02 = new TrafficControllerEscenario02();
+
+    // CenterCenterCenter
+    private static int[] positions = {100, 180, 260, 440, 520, 600};
+    private static int[] positionsTags = {0, 0, 0, 0, 0, 0};
+    static int cant_CenterCenterCenter = 0;
+    private static PriorityBlockingQueue<Vehicle> vehicles_CenterCenterCenter = new PriorityBlockingQueue<>();
+    public void handleCreateVehicle_CenterCenterCenter() {
+        if(vehicles_CenterCenterCenter.size() == 6) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
+        carImage.setFitHeight(70);
+        carImage.setFitWidth(50);
+
+        Vehicle vehicle = new Vehicle(false, "CenterCenterCenter", "North", carImage);
+        vehicles_CenterCenterCenter.add(vehicle);
+        cant_CenterCenterCenter++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(600);
+        vehicle.getImageView().setTranslateY(-108);
+        vehicle.getImageView().setRotate(-90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+        //InicialMovement_CenterCenterCenter(vehicle);
+        trafficControllerEscenario02.addVehicle(vehicle);
+        updatePositions_CenterCenterCenter();
+
+
+
+    }
+
+    public void InicialMovement_CenterCenterCenter(Vehicle car) {
+        int Xpos = 700;
+
+        if (cant_CenterCenterCenter == 1)
+            Xpos = 440;
+        else if (cant_CenterCenterCenter == 2)
+            Xpos = 520;
+        else if (cant_CenterCenterCenter == 3)
+            Xpos = 600;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
+        translateTransition.setToX(Xpos);
+        translateTransition.play();
+        translateTransition.setOnFinished(event -> {
+            trafficControllerEscenario02.addVehicle(car);
+        });
+
+    }
+    static void updatePositions_CenterCenterCenter() {
+        int[] newPositionsTags = new int[positionsTags.length];
+        System.arraycopy(positionsTags, 0, newPositionsTags, 0, positionsTags.length);
+
+        for (Vehicle vehicle : vehicles_CenterCenterCenter) {
+            int currentIndex = -1;
+            for (int i = 0; i < positionsTags.length; i++) {
+                if (positionsTags[i] == 1 && vehicle.getImageView().getTranslateX() == positions[i]) {
+                    currentIndex = i;
+                    break;
+                }
+            }
+
+            if (currentIndex != -1) {
+                int nextIndex = (currentIndex + 1) % positionsTags.length;
+                while (newPositionsTags[nextIndex] == 1) {
+                    nextIndex = (nextIndex + 1) % positionsTags.length;
+                }
+
+                TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
+                translateTransition.setToX(positions[nextIndex]);
+                translateTransition.play();
+
+                newPositionsTags[currentIndex] = 0;
+                newPositionsTags[nextIndex] = 1;
+            }
+        }
+
+        System.arraycopy(newPositionsTags, 0, positionsTags, 0, positionsTags.length);
+        System.out.println(Arrays.toString(positionsTags));
+    }
+
+
+    public static CompletableFuture<Void> tuti(Vehicle vehicle, boolean green){
+        CompletableFuture<Void> future = new CompletableFuture<>();
+
+        /*
+        int Xpos = 440;
+
+        if (cant_CenterCenterCenter == 1)
+            Xpos = 100;
+        else if (cant_CenterCenterCenter == 2)
+            Xpos = 180;
+        else if (cant_CenterCenterCenter == 3)
+            Xpos = 260;
+        else if (cant_CenterCenterCenter == 4)
+            Xpos = 440;
+        else if (cant_CenterCenterCenter == 5)
+            Xpos = 520;
+        else if (cant_CenterCenterCenter == 6)
+            Xpos = 600;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
+        translateTransition.setToX(Xpos);
+        translateTransition.play();
+
+        //positionsTags[cant_CenterCenterCenter - 1] = 1;
+        //System.out.println(Arrays.toString(positionsTags));
+
+        translateTransition.setOnFinished(event -> {
+            positionsTags[cant_CenterCenterCenter - 1] = 1;
+            System.out.println(Arrays.toString(positionsTags));
+            future.complete(null);
+        });
+
+
+
+        /*
+        int Xpos = 440;
+
+        if (cant_CenterCenterCenter == 1)
+            Xpos = 100;
+        else if (cant_CenterCenterCenter == 2)
+            Xpos = 180;
+        else if (cant_CenterCenterCenter == 3)
+            Xpos = 260;
+        else if (cant_CenterCenterCenter == 4)
+            Xpos = 440;
+        else if (cant_CenterCenterCenter == 5)
+            Xpos = 520;
+        else if (cant_CenterCenterCenter == 6)
+            Xpos = 600;
+*/
+/*
+        int Xpos = 100;
+
+        Xpos =  positions[cant_CenterCenterCenter];
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
+        translateTransition.setToX(Xpos);
+        translateTransition.play();
+
+        //positionsTags[cant_CenterCenterCenter - 1] = 1;
+        //System.out.println(Arrays.toString(positionsTags));
+
+        translateTransition.setOnFinished(event -> {
+            positionsTags[cant_CenterCenterCenter - 1] = 1;
+            System.out.println(Arrays.toString(positionsTags));
+            future.complete(null);
+
+
+        });
+
+        cant_CenterCenterCenter++;
+
+        future.complete(null);
+*/
+        future.complete(null);
+        return future;
+    }
+
+
+    // TOY HARTA
+    public static void movtuti(Vehicle vehicle, boolean green){
+
+        /*
+        int Xpos = 440;
+
+        if (cant_CenterCenterCenter == 1)
+            Xpos = 100;
+        else if (cant_CenterCenterCenter == 2)
+            Xpos = 180;
+        else if (cant_CenterCenterCenter == 3)
+            Xpos = 260;
+        else if (cant_CenterCenterCenter == 4)
+            Xpos = 440;
+        else if (cant_CenterCenterCenter == 5)
+            Xpos = 520;
+        else if (cant_CenterCenterCenter == 6)
+            Xpos = 600;
+*/
+
+        int Xpos = 100;
+
+                Xpos =  positions[cant_CenterCenterCenter];
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
+        translateTransition.setToX(Xpos);
+        translateTransition.play();
+
+        //positionsTags[cant_CenterCenterCenter - 1] = 1;
+        //System.out.println(Arrays.toString(positionsTags));
+
+        translateTransition.setOnFinished(event -> {
+            positionsTags[cant_CenterCenterCenter - 1] = 1;
+            System.out.println(Arrays.toString(positionsTags));
+        });
+
+        cant_CenterCenterCenter++;
+
+    }
+
+
+    public static void remove(Vehicle vehicle){
+
+        cant_CenterCenterCenter--;
+    }
+
+
+    // TOY MUY HARTA
+    static void updatePositions() {
+
+        int index = 0;
+        for (Vehicle vehicle : vehicles_CenterCenterCenter) {
+            int Xpos = -320;
+
+            if (index == 0) {
+                Xpos = 100;
+            } else if (index == 1) {
+                Xpos = 180;
+            } else if (index == 2) {
+                Xpos = 260;
+            }
+
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
+            translateTransition.setToX(Xpos);
+
+            SequentialTransition sequentialTransition = new SequentialTransition(translateTransition);
+            sequentialTransition.play();
+            sequentialTransition.onFinishedProperty();
+            index++;
+        }
+    }
+
+    public static CompletableFuture<Void> movetuma(Vehicle car) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+
+        int Xpos = 0;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+        vehicles_CenterCenterCenter.remove(car);
+        AllVehicles.remove(car);
+        translateTransition.setToX(Xpos);
+        translateTransition.setOnFinished(event -> {
+            vehicles_CenterCenterCenter.remove(car);
+            updatePositions_CenterCenterCenter();
+            ((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+            future.complete(null);
+        });
+        translateTransition.play();
+        cant_CenterCenterCenter--;
+        future.complete(null);
+        return future;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private String getSelectedDirection() {
         ToggleButton selectedToggle = (ToggleButton) directionGroup.getSelectedToggle();
@@ -65,6 +368,9 @@ public class HelloController implements Initializable {
         }
         return null;
     }
+
+
+
 
     @FXML
     private void handleStraight() {
@@ -609,6 +915,19 @@ public class HelloController implements Initializable {
             index++;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void handleCreateVehicleSouth() {
         if(vehiclesSouth.size() == 3) {
@@ -1720,4 +2039,6 @@ public class HelloController implements Initializable {
         translateTransition.setToX(carImage.getTranslateX() + 170);
         translateTransition.play();
     }
+
+
 }

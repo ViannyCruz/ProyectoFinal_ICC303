@@ -85,7 +85,7 @@ public class TrafficController {
 
     private synchronized void addVehicleAnimation(Vehicle vehicle) {
         tasks.offer(() -> {
-            //VIENE DEL NORTE Y SIGUE DERECHO
+            // VIENE DEL NORTE Y SIGUE DERECHO
             if (vehicle.getCalle().equals("North") && vehicle.getDirection().equals("South")) {
 
                 while (crossingWestOccupied) {
