@@ -1,5 +1,6 @@
 package com.example.proyectofinal_icc303;
 
+import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
@@ -13,13 +14,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HelloController implements Initializable {
 
@@ -37,12 +39,23 @@ public class HelloController implements Initializable {
     @FXML
     private RadioButton emergencia;
 
+    static int cantNorth = 0;
+    static int cantSouth = 0;
+    static int cantEast = 0;
+    static int cantWest = 0;
 
+    private static PriorityBlockingQueue<Vehicle> vehiclesNorth = new PriorityBlockingQueue<>();
+    private static PriorityBlockingQueue<Vehicle> vehiclesSouth = new PriorityBlockingQueue<>();
+    private static PriorityBlockingQueue<Vehicle> vehiclesEast = new PriorityBlockingQueue<>();
+    private static PriorityBlockingQueue<Vehicle> vehiclesWest = new PriorityBlockingQueue<>();
+    private static PriorityBlockingQueue<Vehicle> AllVehicles = new PriorityBlockingQueue<>();
 
     private List<Vehicle> vehicles = new ArrayList<>();
     private PriorityBlockingQueue<Vehicle> vehicleQueue = new PriorityBlockingQueue<>();
     TrafficController trafficController = new TrafficController();
     private int numVehiculos = 0;
+
+    private List<TrafficLight> trafficLights = new ArrayList<>();
 
     @Override
     @FXML
@@ -51,12 +64,296 @@ public class HelloController implements Initializable {
         cantSouth = 0;
         cantEast = 0;
         cantWest = 0;
-        directionGroup = new ToggleGroup();
-        toggleNorth.setToggleGroup(directionGroup);
-        toggleSouth.setToggleGroup(directionGroup);
-        toggleEast.setToggleGroup(directionGroup);
-        toggleWest.setToggleGroup(directionGroup);
+        //directionGroup = new ToggleGroup();
+        //toggleNorth.setToggleGroup(directionGroup);
+        //toggleSouth.setToggleGroup(directionGroup);
+        //toggleEast.setToggleGroup(directionGroup);
+        //toggleWest.setToggleGroup(directionGroup);
+
+        // ESCENARIO 2
+        // Semaforos
+        Circle circle = new Circle(20, Color.GREEN);
+        translateCircle(circle, 355, -108);
+        stackContainer.getChildren().add(circle);
+        trafficLights.add(new TrafficLight("01", new AtomicBoolean(false), circle));
+
+
+        Circle circle02 = new Circle(20, Color.GREEN);
+        translateCircle(circle02, 0, -108);
+        stackContainer.getChildren().add(circle02);
+        trafficLights.add(new TrafficLight("02", new AtomicBoolean(false), circle02));
+
+
+        Circle circle03 = new Circle(20, Color.GREEN);
+        translateCircle(circle03, -352, -108);
+        stackContainer.getChildren().add(circle03);
+        trafficLights.add(new TrafficLight("03", new AtomicBoolean(false), circle03));
+
+
+        Circle circle04 = new Circle(20, Color.RED);
+        translateCircle(circle04, 355, 82);
+        stackContainer.getChildren().add(circle04);
+        trafficLights.add(new TrafficLight("04", new AtomicBoolean(true), circle04));
+
+        Circle circle05 = new Circle(20, Color.RED);
+        translateCircle(circle05, 0, 82);
+        stackContainer.getChildren().add(circle05);
+        trafficLights.add(new TrafficLight("05", new AtomicBoolean(true), circle05));
+
+        Circle circle06 = new Circle(20, Color.RED);
+        translateCircle(circle06, -352, 82);
+        stackContainer.getChildren().add(circle06);
+        trafficLights.add(new TrafficLight("06", new AtomicBoolean(true), circle06));
+
+        startTrafficLightCycle();
+
     }
+
+    private void startTrafficLightCycle() {
+        new AnimationTimer() {
+            long lastUpdate = 0;
+            //final long interval = 5000000000L; // 5 seconds in nanoseconds
+            final long interval = 6000000000L; // 6 seconds in nanoseconds
+
+            @Override
+            public void handle(long now) {
+                if (now - lastUpdate >= interval) {
+                    updateTrafficLights();
+                    lastUpdate = now;
+                }
+            }
+        }.start();
+    }
+
+    private void updateTrafficLights() {
+        for (TrafficLight light : trafficLights) {
+            light.changeLight();
+        }
+        trafficController_02.setCenterWest();
+
+        System.out.println(trafficController_02.isCenterWest());
+    }
+
+    private void translateCircle(Circle circle, double targetX, double targetY) {
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.1), circle);
+        translateTransition.setToX(targetX);
+        translateTransition.setToY(targetY);
+        translateTransition.play();
+    }
+
+
+
+
+
+
+
+
+
+
+
+    private static boolean CenterWest;
+    static int cantCenterWest = 0;
+    static int cantPositions = 9;
+    static int[] positions = {600, 520, 440, 270, 190, 110, -90, -170, -250};
+    static int[] positionsTags = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+    TrafficController_02 trafficController_02 = new TrafficController_02();
+    private static PriorityBlockingQueue<Vehicle> vehiclesCenterWest = new PriorityBlockingQueue<>();
+
+
+    public void handleCreateVehicleCenterWest() {
+        if(vehiclesCenterWest.size() == 6) {
+            return;
+        }
+        ImageView carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
+        carImage.setFitHeight(60);
+        carImage.setFitWidth(40);
+        Vehicle vehicle = new Vehicle(false, "West", "East", carImage);
+        vehiclesCenterWest.add(vehicle);
+        cantCenterWest++;
+        numVehiculos++;
+
+        vehicle.getImageView().setTranslateX(680);
+        vehicle.getImageView().setTranslateY(-45);
+        vehicle.getImageView().setRotate(-90);
+
+        stackContainer.getChildren().add(vehicle.getImageView());
+        vehicles.add(vehicle);
+        AllVehicles.add(vehicle);
+
+        InicialMovementCenterWest(vehicle);
+//        trafficController.addVehicle(vehicle);
+    }
+
+    public void InicialMovementCenterWest(Vehicle car) {
+        trafficController_02.addVehicle(car);
+
+        /*
+        int Xpos = 305;
+
+        if (cantCenterWest == 1)
+            Xpos = 130;
+        else if (cantCenterWest == 2)
+            Xpos = 220;
+        else if (cantCenterWest == 3)
+            Xpos = 310;
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), car.getImageView());
+        translateTransition.setToX(Xpos);
+        translateTransition.play();
+        translateTransition.setOnFinished(event -> {
+            trafficController_02.addVehicle(car);
+        });*/
+    }
+
+
+    public static void moveCenterWest(Vehicle car) {
+        int Xpos = -420;
+        int centerInt = car.getCenterInt();
+
+        if(centerInt < cantPositions){
+            Xpos = positions[centerInt];
+            System.out.println(Arrays.toString(positions));
+            positionsTags[centerInt] = 1;
+            if(centerInt > 0)
+                positionsTags[centerInt - 1] = 0;
+            System.out.println(Arrays.toString(positionsTags));
+            System.out.println("\n");
+
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(3), car.getImageView());
+            //vehiclesCenterWest.remove(car);
+            //AllVehicles.remove(car);
+            translateTransition.setToX(Xpos);
+
+
+
+            translateTransition.setOnFinished(event -> {
+                //vehiclesCenterWest.remove(car);
+                //updatePositionsCenterWest();
+                //((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+            });
+            translateTransition.play();
+            cantCenterWest--;
+        }
+
+    }
+
+
+
+
+    static void updatePositionsCenterWest() {
+        int Xpos = -420;
+        Iterator<Vehicle> iterator = vehiclesCenterWest.iterator();
+        while (iterator.hasNext()) {
+            Vehicle vehicle = iterator.next();
+
+            // MOVER VEHICULO
+            int centerInt = vehicle.getCenterInt();
+            int pos = 0;
+
+            if(centerInt < cantPositions){
+             //   Xpos = positions[centerInt]; //todo: mejorar posicion
+
+
+                if(centerInt == 0 && positionsTags[centerInt + 2] == 0)
+                {
+                    pos = 2;
+                }
+                else if(centerInt == 0 && positionsTags[centerInt + 1] == 0)
+                {
+                    pos = 1;
+                }
+                else
+                {
+                    pos = 0;
+
+                }
+
+
+                System.out.println("LUZ VERDE " );
+                if(positionsTags[centerInt] == 0 ) {
+                    System.out.println(Arrays.toString(positions));
+                    positionsTags[centerInt] = 1;
+                    if(centerInt > 0)
+                        positionsTags[centerInt - 1] = 0;
+                    System.out.println(Arrays.toString(positionsTags));
+                    System.out.println("\n");
+
+                    TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
+                    //vehiclesCenterWest.remove(car);
+                    //AllVehicles.remove(car);
+                    translateTransition.setToX(Xpos);
+                    translateTransition.setOnFinished(event -> {
+                        //vehiclesCenterWest.remove(car);
+                        //updatePositionsCenterWest();
+                        //((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                    });
+                    translateTransition.play();
+
+                    cantCenterWest--;
+                    //vehicle.setCenterInt(vehicle.getCenterInt() + 1);
+                }
+            }
+        }
+    }
+
+
+
+
+    static void updatePositionsCenterWestRed() {
+        int Xpos = -420;
+        Iterator<Vehicle> iterator = vehiclesCenterWest.iterator();
+        while (iterator.hasNext()) {
+            Vehicle vehicle = iterator.next();
+
+            // MOVER VEHICULO
+            int centerInt = vehicle.getCenterInt();
+
+            if(centerInt < cantPositions){
+                if(centerInt != 3 ){
+                    Xpos = positions[centerInt];
+                    System.out.println("LUZ VERDE " );
+                    if(positionsTags[centerInt] == 0 ) {
+                        System.out.println(Arrays.toString(positions));
+                        positionsTags[centerInt] = 1;
+                        if(centerInt > 0)
+                            positionsTags[centerInt - 1] = 0;
+                        System.out.println(Arrays.toString(positionsTags));
+                        System.out.println("\n");
+
+                        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), vehicle.getImageView());
+                        //vehiclesCenterWest.remove(car);
+                        //AllVehicles.remove(car);
+                        translateTransition.setToX(Xpos);
+                        translateTransition.setOnFinished(event -> {
+                            //vehiclesCenterWest.remove(car);
+                            //updatePositionsCenterWest();
+                            //((StackPane) car.getImageView().getParent()).getChildren().remove(car.getImageView());
+                        });
+                        translateTransition.play();
+
+                        cantCenterWest--;
+                        vehicle.setCenterInt(vehicle.getCenterInt() + 1);
+                    }
+                }
+
+
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private String getSelectedDirection() {
         ToggleButton selectedToggle = (ToggleButton) directionGroup.getSelectedToggle();
@@ -237,16 +534,7 @@ public class HelloController implements Initializable {
 
     }
 
-    static int cantNorth = 0;
-    static int cantSouth = 0;
-    static int cantEast = 0;
-    static int cantWest = 0;
 
-    private static PriorityBlockingQueue<Vehicle> vehiclesNorth = new PriorityBlockingQueue<>();
-    private static PriorityBlockingQueue<Vehicle> vehiclesSouth = new PriorityBlockingQueue<>();
-    private static PriorityBlockingQueue<Vehicle> vehiclesEast = new PriorityBlockingQueue<>();
-    private static PriorityBlockingQueue<Vehicle> vehiclesWest = new PriorityBlockingQueue<>();
-    private static PriorityBlockingQueue<Vehicle> AllVehicles = new PriorityBlockingQueue<>();
 
     public void handleCreateVehicleNorth() {
         if(vehiclesNorth.size() == 3) {

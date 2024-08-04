@@ -13,6 +13,7 @@ public class Vehicle implements  Comparable<Vehicle> {
     private double x, y; // Posición del vehículo
     private transient ImageView imageView; // Referencia a la imagen en la interfaz gráfica
 
+    private int centerInt = 0;
 
     @Override
     public int compareTo(Vehicle other) {
@@ -28,6 +29,16 @@ public class Vehicle implements  Comparable<Vehicle> {
         this.imageView = imageView;
         this.x = imageView.getLayoutX(); // Inicializa x, y con la posición actual de imageView
         this.y = imageView.getLayoutY();
+
+        this.centerInt = 0;
+    }
+
+    public int getCenterInt() {
+        return centerInt;
+    }
+
+    public void setCenterInt(int centerInt) {
+        this.centerInt = centerInt;
     }
 
 
