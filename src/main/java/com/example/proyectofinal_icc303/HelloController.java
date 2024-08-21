@@ -345,7 +345,7 @@ public class HelloController implements Initializable {
             carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
             carImage.setFitHeight(60);
             carImage.setFitWidth(40);
-            vehicle = new Vehicle(false, "West", "East", carImage);
+            vehicle = new Vehicle(false, "East", "West", carImage);
 
             vehiclesCenterWest.add(vehicle);
             cantCenterWest++;
@@ -367,7 +367,7 @@ public class HelloController implements Initializable {
                 carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
                 carImage.setFitHeight(60);
                 carImage.setFitWidth(40);
-                vehicle = new Vehicle(true, "West", "East", carImage);
+                vehicle = new Vehicle(true, "East", "West", carImage);
                 emergency_bool = true;
                 vehicle_emergency = vehicle;
 
@@ -408,7 +408,7 @@ public class HelloController implements Initializable {
             carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
             carImage.setFitHeight(60);
             carImage.setFitWidth(40);
-            vehicle = new Vehicle(false, "East", "West", carImage);
+            vehicle = new Vehicle(false, "West", "East", carImage);
 
             vehiclesCenterEast.add(vehicle);
             cantCenterCenterEast++;
@@ -430,9 +430,9 @@ public class HelloController implements Initializable {
                 carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
                 carImage.setFitHeight(60);
                 carImage.setFitWidth(40);
-                vehicle = new Vehicle(true, "East", "West", carImage);
-                emergency_bool = true;
-                vehicle_emergency = vehicle;
+                vehicle = new Vehicle(true, "West", "East", carImage);
+                emergency_bool_CenterEast = true;
+                vehicle_emergency_CenterEast = vehicle;
 
                 vehiclesCenterEast.add(vehicle);
                 cantCenterCenterEast++;
@@ -475,7 +475,7 @@ public class HelloController implements Initializable {
             carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
             carImage.setFitHeight(60);
             carImage.setFitWidth(40);
-            vehicle = new Vehicle(false, "West",  getSelectedExit(), carImage);
+            vehicle = new Vehicle(false, "East",  getSelectedExit(), carImage);
 
             vehiclesWestRight.add(vehicle);
             cantWestRight++;
@@ -491,11 +491,11 @@ public class HelloController implements Initializable {
 
             trafficController_02.addVehicle(vehicle);
         } else {
-            if(emergency_bool_RightWest){
+            if(!emergency_bool_RightWest){
                 carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
                 carImage.setFitHeight(60);
                 carImage.setFitWidth(40);
-                vehicle = new Vehicle(true, "West",  getSelectedExit(), carImage);
+                vehicle = new Vehicle(true, "East",  getSelectedExit(), carImage);
                 // System.out.println("CALLE: " + calle);
                 emergency_bool_RightWest = true;
                 vehicle_emergency_WestRight = vehicle;
@@ -785,6 +785,11 @@ public class HelloController implements Initializable {
     }
 */
 
+
+
+
+
+
     private static int getNextPosition(int currentPos, int cantPositions, int [] positionsTags, boolean emergency_bool, Vehicle vehicle_emergency, TrafficLight trafficLight) {
       System.out.println("getNextPosition");
         if (currentPos == 0) {
@@ -891,9 +896,6 @@ public class HelloController implements Initializable {
         }
         return -1;
     }
-
-
-
 
 
 
@@ -1186,6 +1188,7 @@ public class HelloController implements Initializable {
                         emergency_bool_CenterEast = false;
 
 
+
                     vehicles.remove(vehicle);
 
                 }else{
@@ -1297,6 +1300,7 @@ public class HelloController implements Initializable {
                 });
                 forwardTransition.play();
             }else if(newCenterInt == 5 && vehicle.getCalle().equals("Exit02")){
+
                 if(vehicle.isEmergency())
                     emergency_bool_RightWest = false;
 
