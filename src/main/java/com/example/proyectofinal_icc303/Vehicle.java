@@ -12,7 +12,7 @@ public class Vehicle implements  Comparable<Vehicle> {
     private String calle;
     private double x, y; // Posición del vehículo
     private transient ImageView imageView; // Referencia a la imagen en la interfaz gráfica
-
+    private  int position;
     private int centerInt = 0;
 
     @Override
@@ -20,6 +20,13 @@ public class Vehicle implements  Comparable<Vehicle> {
         return Integer.compare(this.id, other.id);
     }
 
+    public int getCurrentPosition() {
+        return position;
+    }
+
+    public void setCurrentPosition(int position) {
+        this.position = position;
+    }
 
     public Vehicle(boolean emergency, String direction, String calle, ImageView imageView) {
         this.id = nextId++;
@@ -31,6 +38,7 @@ public class Vehicle implements  Comparable<Vehicle> {
         this.y = imageView.getLayoutY();
 
         this.centerInt = 0;
+        this.position = 0;
     }
 
     public int getCenterInt() {
@@ -97,6 +105,7 @@ public class Vehicle implements  Comparable<Vehicle> {
     public void setImageView(ImageView imageView) {
         this.imageView = imageView;
     }
+
 
 
 }

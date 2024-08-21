@@ -19,7 +19,7 @@ public class TrafficController_02 {
 
     private volatile boolean crossingNorthOccupied = false;
     private volatile boolean crossingSouthOccupied = false;
-    public volatile boolean crossingEastOccupied = false;
+    public volatile boolean  crossingEastOccupied = false;
     private volatile boolean crossingWestOccupied = false;
 
 
@@ -27,8 +27,8 @@ public class TrafficController_02 {
     private CountDownLatch latch;
 
 
-    private PriorityBlockingQueue<Vehicle> queue = new PriorityBlockingQueue<>();
-    private PriorityBlockingQueue<Vehicle> Emergencyqueue = new PriorityBlockingQueue<>();
+    private static PriorityBlockingQueue<Vehicle> queue = new PriorityBlockingQueue<>();
+    private static PriorityBlockingQueue<Vehicle> Emergencyqueue = new PriorityBlockingQueue<>();
 
     private final AtomicBoolean running = new AtomicBoolean(false);
     private Thread workerThread;
@@ -39,6 +39,7 @@ public class TrafficController_02 {
         workerThread.start();
         this.CenterWest = false; ///
     }
+
 
     private void scheduleNext() {
         if (!tasks.isEmpty()) {
@@ -86,40 +87,36 @@ public class TrafficController_02 {
     private synchronized void addVehicleAnimation(Vehicle vehicle) {
         tasks.offer(() -> {
 
-            if (vehicle.getCalle().equals("East") && vehicle.getDirection().equals("West")) {
+            CountDownLatch latch = new CountDownLatch(1);
+            HelloController.setLatch(latch);
+           // HelloController.updatePositionsCenterWest();
+            HelloController.update();
 
-                if(isCenterWest())
-                    HelloController.updatePositionsCenterWest();
-                else
-                    HelloController.updatePositionsCenterWestRed();
-
-
+            try {
+                latch.await(); // Esperar a que update termine
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
 
-            /*
 
-            if(CenterWest){
-                if (vehicle.getCalle().equals("East") && vehicle.getDirection().equals("West")) {
 
-                    HelloController.updatePositionsCenterWest();
+           /* if (vehicle.getCalle().equals("East") && vehicle.getDirection().equals("West")) {
+                CountDownLatch latch = new CountDownLatch(1);
+                HelloController.setLatch(latch);
+                //HelloController.updatePositionsCenterWest();
+                HelloController.update();
 
+                try {
+                    latch.await(); // Wait until the update is done
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
-            }else{
-                if (vehicle.getCalle().equals("East") && vehicle.getDirection().equals("West")) {
-
-                   // HelloController.updatePositionsCenterWest();
-
-                }
-            }
-*/
-
-
-
-
-
+            }*/
         });
         scheduleNext();
     }
+
+
     public void startControl() {
         while (!queue.isEmpty()) {
             Vehicle vehicle = queue.poll();
@@ -146,6 +143,14 @@ public class TrafficController_02 {
         queue.add(vehicle);
     }
 
+    public void handleRegularVehicle() {
+        Vehicle vehicle = queue.poll(); // Poll to remove the vehicle from the queue
+        if (vehicle != null) {
+            addVehicleAnimation(vehicle);
+        }
+    }
+
+
     public boolean isCenterWest() {
         return CenterWest;
     }
@@ -159,4 +164,14 @@ public class TrafficController_02 {
         }
 
     }
+
+    public static void removeVehicle(Vehicle vehicle) {
+        if (queue.contains(vehicle)) {
+            queue.remove(vehicle);
+        }
+        if (Emergencyqueue.contains(vehicle)) {
+            Emergencyqueue.remove(vehicle);
+        }
+    }
+
 }

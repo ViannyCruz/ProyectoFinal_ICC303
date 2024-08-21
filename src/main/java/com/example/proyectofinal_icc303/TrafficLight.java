@@ -20,7 +20,6 @@ public class TrafficLight {
 
 
     public void changeLight(){
-
         if(green.get()){
             green.set(false);
             circle.setFill(Color.RED);
@@ -28,8 +27,8 @@ public class TrafficLight {
             green.set(true);
             circle.setFill(Color.GREEN);
         }
-
     }
+
 
     public boolean isGreen(){
         return green.get();
