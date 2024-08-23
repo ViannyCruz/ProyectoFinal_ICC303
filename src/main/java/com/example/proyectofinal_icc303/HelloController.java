@@ -32,11 +32,13 @@ public class HelloController implements Initializable {
     @FXML
     public Button btnCenterEast;
     public Button btnRightTurnWest;
+    public Button btnLeftTurnWest;
 
     private boolean isClickable = true;
     private boolean isOnCooldown = false;
     private boolean isOnCooldownCenterEast = false;
     private boolean isOnCooldownRightWest = false;
+    private boolean isOnCooldownLeftWest = false;
   //  private final int COOLDOWN_DURATION = 5000; // Cooldown duration in milliseconds
     private final int COOLDOWN_DURATION = 2000; // Cooldown duration in milliseconds
 
@@ -67,6 +69,7 @@ public class HelloController implements Initializable {
     private static boolean emergency_bool =  false;
     private static boolean emergency_bool_CenterEast =  false;
     private static boolean emergency_bool_RightWest =  false;
+    private static boolean emergency_bool_LeftWest =  false;
 
     static int cantNorth = 0;
     static int cantSouth = 0;
@@ -115,6 +118,7 @@ public class HelloController implements Initializable {
         btnCenterWest.setOnAction(event -> handleButtonClick());
         btnCenterEast.setOnAction(event -> handleButtonClickCenterEast());
         btnRightTurnWest.setOnAction(event -> handleButtonClickRightEast());
+        btnLeftTurnWest.setOnAction(event -> handleButtonClickLeftWest());
 
         emergency_bool =  false;
         emergency_bool_CenterEast =  false;
@@ -216,18 +220,14 @@ public class HelloController implements Initializable {
 
     private void handleButtonClick() {
         if (isOnCooldown) {
-            // Button is on cooldown, do nothing or show a message
             System.out.println("Button is on cooldown. Please wait.");
             return;
         }
 
-        // Perform the button action
         handleCreateVehicleCenterWest();
 
-        // Set the cooldown flag
         isOnCooldown = true;
 
-        // Schedule a task to reset the cooldown flag after the specified duration
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(COOLDOWN_DURATION),
                 ae -> isOnCooldown = false
@@ -238,18 +238,14 @@ public class HelloController implements Initializable {
 
     private void handleButtonClickCenterEast() {
         if (isOnCooldownCenterEast) {
-            // Button is on cooldown, do nothing or show a message
             System.out.println("Button is on cooldown. Please wait.");
             return;
         }
 
-        // Perform the button action
         handleCreateVehicleCenterEast();
 
-        // Set the cooldown flag
         isOnCooldownCenterEast = true;
 
-        // Schedule a task to reset the cooldown flag after the specified duration
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(COOLDOWN_DURATION),
                 ae -> isOnCooldownCenterEast = false
@@ -268,24 +264,20 @@ public class HelloController implements Initializable {
         } else if (exit03.isSelected()) {
             return "Exit03";
         }
-        return null; // Return null if none are selected
+        return null;
     }
 
     @FXML
     private void handleButtonClickRightEast() {
         if (isOnCooldownRightWest) {
-            // Button is on cooldown, do nothing or show a message
             System.out.println("Button is on cooldown. Please wait.");
             return;
         }
 
-        // Perform the button action
         handleCreateVehicleWestRight();
 
-        // Set the cooldown flag
         isOnCooldownRightWest = true;
 
-        // Schedule a task to reset the cooldown flag after the specified duration
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(COOLDOWN_DURATION),
                 ae -> isOnCooldownRightWest  = false
@@ -293,6 +285,26 @@ public class HelloController implements Initializable {
         timeline.setCycleCount(1);
         timeline.play();
     }
+
+    @FXML
+    private void handleButtonClickLeftWest() {
+        if (isOnCooldownLeftWest) {
+            System.out.println("Button is on cooldown. Please wait.");
+            return;
+        }
+
+        handleCreateVehicleWestLeft();
+
+        isOnCooldownLeftWest = true;
+
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.millis(COOLDOWN_DURATION),
+                ae -> isOnCooldownLeftWest  = false
+        ));
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
 
 
 
@@ -330,6 +342,18 @@ public class HelloController implements Initializable {
     static int[] positionsTagsWestRight = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     static Vehicle vehicle_emergency_WestRight;
+
+
+
+
+    private static PriorityBlockingQueue<Vehicle> vehiclesWestLeft = new PriorityBlockingQueue<>();
+    static int cantWestLeft = 0;
+    static int cantPositionsWestLeft = 9;
+    static int[] positionsWestLeft = {600, 520, 440, 270, 190, 110, -90, -170, -250, -815};
+    static int[] positionsTagsWestLeft = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+    static Vehicle vehicle_emergency_WestLeft;
+
 
 
 
@@ -395,7 +419,6 @@ public class HelloController implements Initializable {
 
 
     }
-
     public void handleCreateVehicleCenterEast() {
 
         if(vehiclesCenterEast.size() == 9) {
@@ -455,11 +478,6 @@ public class HelloController implements Initializable {
 
 
     }
-
-
-
-
-
 
     public void handleCreateVehicleWestRight() {
         if (vehiclesWestRight.size() == 9) {
@@ -529,6 +547,72 @@ public class HelloController implements Initializable {
     }
 
 
+    public void handleCreateVehicleWestLeft() {
+        if (vehiclesWestLeft.size() == 9) {
+            return;
+        }
+
+        ImageView carImage = null;
+        Vehicle vehicle = null;
+
+
+
+        if (!emergencia.isSelected()) {
+            carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/Auto.png")));
+            carImage.setFitHeight(60);
+            carImage.setFitWidth(40);
+            vehicle = new Vehicle(false, "East",  getSelectedExit(), carImage);
+            System.out.println("CALLE: " + getSelectedExit());
+
+            vehiclesWestLeft.add(vehicle);
+            cantWestLeft++;
+            numVehiculos++;
+
+            vehicle.getImageView().setTranslateX(680);
+            vehicle.getImageView().setTranslateY(-50);
+            vehicle.getImageView().setRotate(-90);
+
+            stackContainer.getChildren().add(vehicle.getImageView());
+            vehicles.add(vehicle);
+            AllVehicles.add(vehicle);
+
+            trafficController_02.addVehicle(vehicle);
+        } else {
+            if(!emergency_bool_LeftWest){
+                carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+                carImage.setFitHeight(60);
+                carImage.setFitWidth(40);
+                vehicle = new Vehicle(true, "East",  getSelectedExit(), carImage);
+                emergency_bool_LeftWest = true;
+                vehicle_emergency_WestLeft = vehicle;
+
+
+                vehiclesWestLeft.add(vehicle);
+                cantWestLeft++;
+                numVehiculos++;
+
+                vehicle.getImageView().setTranslateX(680);
+                vehicle.getImageView().setTranslateY(-50);
+                vehicle.getImageView().setRotate(-90);
+
+                stackContainer.getChildren().add(vehicle.getImageView());
+                vehicles.add(vehicle);
+                AllVehicles.add(vehicle);
+
+                trafficController_02.addVehicle(vehicle);
+            }
+            /*
+            carImage = new ImageView(new Image(getClass().getResourceAsStream("/com/example/proyectofinal_icc303/AutoEmergencia.png")));
+            carImage.setFitHeight(60);
+            carImage.setFitWidth(40);
+            vehicle = new Vehicle(true, "West",  getSelectedExit(), carImage);
+*/
+
+
+
+        }
+
+    }
 
 
     private static CountDownLatch latch;
@@ -539,10 +623,7 @@ public class HelloController implements Initializable {
 
         updatePositionsCenterWest();
         updatePositionsCenterEast();
-
-
-
-
+        updatePositionsLeftWest();
 
 
 
@@ -643,7 +724,7 @@ public class HelloController implements Initializable {
                     //moveVehicle(vehicle, nextPos, positionsTags, positions);
                     //moveVehicle(vehicle, nextPos, positionsTags, positions, vehiclesCenterWest, cantCenterWest, 0);
                     //moveVehicleRightWest(vehicle, nextPos, positionsTagsWestRight, positionsWestRight, vehiclesWestRight, cantWestRight, 0);
-                    moveVehicleTuma(vehicle, nextPos, positionsTagsWestRight, positionsWestRight, vehiclesWestRight, cantWestRight, 0);
+                    moveVehicle02(vehicle, nextPos, positionsTagsWestRight, positionsWestRight, vehiclesWestRight, cantWestRight, 0);
 
                 }
             }
@@ -656,6 +737,50 @@ public class HelloController implements Initializable {
 */
     }
 
+    public static void updatePositionsLeftWest() {
+
+        Iterator<Vehicle> iterator = vehiclesWestLeft.iterator();
+        while (iterator.hasNext()) {
+            System.out.println("EMERGENCY: " + emergency_bool_LeftWest);
+            Vehicle vehicle = iterator.next();
+            int centerInt = vehicle.getCenterInt();
+            int nextPos =0;
+            if (centerInt < cantPositionsWestRight) {
+
+                //    private static int getNextPosition(int currentPos, int cantPositions, int [] positionsTags, boolean emergency_bool, Vehicle vehicle_emergency, TrafficLight trafficLight) {
+
+                if(vehicle.isEmergency()) {
+                    nextPos = getNextPositionEmergency(centerInt, cantPositionsWestLeft, positionsTagsWestLeft, emergency_bool_LeftWest, trafficLights.getFirst());
+                    //System.out.println("Center Int: " + centerInt);
+                }                    //nextPos = getNextPosition(centerInt, cantPositionsWestRight, positionsTagsWestRight, emergency_bool_RightWest, vehicle_emergency_WestRight, trafficLights.getFirst() );
+
+                else
+                    nextPos = getNextPosition(centerInt, cantPositionsWestLeft, positionsTagsWestLeft, emergency_bool_LeftWest, vehicle_emergency_WestLeft, trafficLights.getFirst() );
+
+                System.out.println("Next Post: " + nextPos);
+
+                if (nextPos != -1) {
+                    //moveVehicle(vehicle, nextPos);
+                    //moveVehicle(vehicle, nextPos, positionsTags, positions);
+                    //moveVehicle(vehicle, nextPos, positionsTags, positions, vehiclesCenterWest, cantCenterWest, 0);
+                   // moveVehicle(vehicle, nextPos, positionsTagsWestLeft, positionsWestLeft, vehiclesWestLeft, cantWestLeft, 0);
+
+
+                    moveVehicletuti(vehicle, nextPos, positionsTagsWestLeft, positionsWestLeft, vehiclesWestLeft, cantWestLeft, 0);
+                  // moveVehicleleft(vehicle, nextPos, positionsTagsWestLeft, positionsWestLeft, vehiclesWestLeft, cantWestLeft, 0);
+
+
+
+                }
+            }
+        }
+        /*
+        if (latch != null) {
+            latch.countDown();
+
+        }
+*/
+    }
 
 
 
@@ -797,6 +922,9 @@ public class HelloController implements Initializable {
                 return 2;
             if (currentPos + 1 < cantPositions && positionsTags[currentPos + 1] == 0)
                 return 1;
+
+
+
             return -1;
         } else if (currentPos == 2) {
             if(!emergency_bool)
@@ -1165,7 +1293,6 @@ public class HelloController implements Initializable {
             newCenterInt = vehicle.getCenterInt() + nextPos;
             positionsTags[newCenterInt] = 1;
 
-            // Ensure that the tag for the current position is set to 0 before the vehicle moves.
             if (vehicle.getCenterInt() >= 0) {
                 positionsTags[vehicle.getCenterInt()] = 0;
             }
@@ -1225,7 +1352,7 @@ public class HelloController implements Initializable {
 
 
 
-    private static void moveVehicleTuma(Vehicle vehicle, int nextPos, int[] positionsTags, int[] positions, PriorityBlockingQueue vehicles, int cant, int cantChoose) {
+    private static void moveVehicle02(Vehicle vehicle, int nextPos, int[] positionsTags, int[] positions, PriorityBlockingQueue vehicles, int cant, int cantChoose) {
         int newCenterInt;
         if (nextPos == 8) {
             newCenterInt = 9;
@@ -1234,7 +1361,6 @@ public class HelloController implements Initializable {
             newCenterInt = vehicle.getCenterInt() + nextPos;
             positionsTags[newCenterInt] = 1;
 
-            // Ensure that the tag for the current position is set to 0 before the vehicle moves.
             if (vehicle.getCenterInt() >= 0) {
                 positionsTags[vehicle.getCenterInt()] = 0;
             }
@@ -1247,21 +1373,6 @@ public class HelloController implements Initializable {
             vehicle.setCenterInt(newCenterInt);
 
 
-            /*
-            if (newCenterInt == 9) {
-                ((StackPane) vehicle.getImageView().getParent()).getChildren().remove(vehicle.getImageView());
-
-                if (vehicle.isEmergency()) {
-                    if (vehicle.getCalle().equals("East") && vehicle.getDirection().equals("West"))
-                        emergency_bool = false;
-                    else if (vehicle.getCalle().equals("West") && vehicle.getDirection().equals("East"))
-                        emergency_bool_CenterEast = false;
-
-                    vehicles.remove(vehicle);
-                } else {
-                    vehicles.remove(vehicle);
-                }
-            }*/
 
 
             if (newCenterInt == 2 && vehicle.getCalle().equals("Exit01")) {
@@ -1272,19 +1383,15 @@ public class HelloController implements Initializable {
                 cantWestRight--;
                 positionsTags[2] = 0;
 
-                // Move the car a little bit forward
                 TranslateTransition forwardTransition = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
                 forwardTransition.setToX(Xpos - 60); // Adjust the value as needed
                 forwardTransition.setOnFinished(forwardEvent -> {
-                    // Rotate the car
                     RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.5), vehicle.getImageView());
                     rotateTransition.setByAngle(90); // Adjust the angle as needed
                     rotateTransition.setOnFinished(rotateEvent -> {
-                        // Move the car forward again
                         TranslateTransition forwardAgainTransition = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
                         forwardAgainTransition.setToY( -330); // Adjust the value as needed
                         forwardAgainTransition.setOnFinished(forwardAgainEvent -> {
-                            // Delete the car
                             ((StackPane) vehicle.getImageView().getParent()).getChildren().remove(vehicle.getImageView());
                             //vehiclesWestRight.remove(vehicle);
                             vehicles.remove(vehicle);
@@ -1313,15 +1420,12 @@ public class HelloController implements Initializable {
                 TranslateTransition forwardTransition = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
                 forwardTransition.setToX(Xpos - 80); // Adjust the value as needed
                 forwardTransition.setOnFinished(forwardEvent -> {
-                    // Rotate the car
                     RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.5), vehicle.getImageView());
                     rotateTransition.setByAngle(90); // Adjust the angle as needed
                     rotateTransition.setOnFinished(rotateEvent -> {
-                        // Move the car forward again
                         TranslateTransition forwardAgainTransition = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
                         forwardAgainTransition.setToY( -330); // Adjust the value as needed
                         forwardAgainTransition.setOnFinished(forwardAgainEvent -> {
-                            // Delete the car
                             ((StackPane) vehicle.getImageView().getParent()).getChildren().remove(vehicle.getImageView());
                             //vehiclesWestRight.remove(vehicle);
                             vehicles.remove(vehicle);
@@ -1349,15 +1453,12 @@ public class HelloController implements Initializable {
                 TranslateTransition forwardTransition = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
                 forwardTransition.setToX(Xpos - 80); // Adjust the value as needed
                 forwardTransition.setOnFinished(forwardEvent -> {
-                    // Rotate the car
                     RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.5), vehicle.getImageView());
                     rotateTransition.setByAngle(90); // Adjust the angle as needed
                     rotateTransition.setOnFinished(rotateEvent -> {
-                        // Move the car forward again
                         TranslateTransition forwardAgainTransition = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
                         forwardAgainTransition.setToY( -330); // Adjust the value as needed
                         forwardAgainTransition.setOnFinished(forwardAgainEvent -> {
-                            // Delete the car
                             ((StackPane) vehicle.getImageView().getParent()).getChildren().remove(vehicle.getImageView());
                             //vehiclesWestRight.remove(vehicle);
                             vehicles.remove(vehicle);
@@ -1381,7 +1482,232 @@ public class HelloController implements Initializable {
         });
         translateTransition.play();
 
-        /*
+
+
+        System.out.println(Arrays.toString(positions));
+        System.out.println(Arrays.toString(positionsTags));
+        System.out.println("Pos " + nextPos);
+        System.out.println("\n");
+    }
+
+
+
+
+
+
+    private static int getNextPositiontuti(int currentPos, int cantPositions, int[] positionsTags, boolean emergency_bool, Vehicle vehicle_emergency, TrafficLight trafficLight) {
+        System.out.println("getNextPosition");
+        if (currentPos == 0) {
+            if (currentPos + 2 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0)
+                return 2;
+            if (currentPos + 1 < cantPositions && positionsTags[currentPos + 1] == 0)
+                return 1;
+            return -1;
+        } else if (currentPos == 2) {
+            if (!emergency_bool) {
+                if (trafficLight.getCircle().getFill() == Color.GREEN && isCurrentSecondLessThanFive()) {
+                    if (currentPos + 3 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0 && positionsTags[currentPos + 3] == 0)
+                        return 3;
+                    if (currentPos + 2 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0)
+                        return 2;
+                    if (currentPos + 1 < cantPositions && positionsTags[currentPos + 1] == 0)
+                        return 1;
+                }
+            } else if (isCurrentSecondLessThanFive()) { // Emergencia
+                if (vehicle_emergency.getCenterInt() > currentPos) {
+                    if (trafficLight.getCircle().getFill() == Color.GREEN) {
+                        if (currentPos + 3 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0 && positionsTags[currentPos + 3] == 0)
+                            return 3;
+                        if (currentPos + 2 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0)
+                            return 2;
+                        if (currentPos + 1 < cantPositions && positionsTags[currentPos + 1] == 0)
+                            return 1;
+                    }
+                } else {
+                    if (currentPos + 3 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0 && positionsTags[currentPos + 3] == 0)
+                        return 3;
+                    if (currentPos + 2 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0)
+                        return 2;
+                    if (currentPos + 1 < cantPositions && positionsTags[currentPos + 1] == 0)
+                        return 1;
+                }
+            }
+            return -1;
+        } else if (currentPos == 5) {
+            if (!emergency_bool) {
+                if (trafficLight.getCircle().getFill() == Color.GREEN && isCurrentSecondLessThanFive()) {
+                    if (currentPos + 3 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0 && positionsTags[currentPos + 3] == 0)
+                        return 3;
+                    if (currentPos + 2 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0)
+                        return 2;
+                    if (currentPos + 1 < cantPositions && positionsTags[currentPos + 1] == 0)
+                        return 1;
+                }
+            } else if (isCurrentSecondLessThanFive()) {
+                if (vehicle_emergency.getCenterInt() > currentPos) {
+                    if (trafficLight.getCircle().getFill() == Color.GREEN) {
+                        if (currentPos + 3 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0 && positionsTags[currentPos + 3] == 0)
+                            return 3;
+                        if (currentPos + 2 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0)
+                            return 2;
+                        if (currentPos + 1 < cantPositions && positionsTags[currentPos + 1] == 0)
+                            return 1;
+                    }
+                } else {
+                    if (currentPos + 3 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0 && positionsTags[currentPos + 3] == 0)
+                        return 3;
+                    if (currentPos + 2 < cantPositions && positionsTags[currentPos + 1] == 0 && positionsTags[currentPos + 2] == 0)
+                        return 2;
+                    if (currentPos + 1 < cantPositions && positionsTags[currentPos + 1] == 0)
+                        return 1;
+                }
+            }
+            return -1;
+        } else if (currentPos == 8) {
+            if (!emergency_bool) {
+                if (trafficLight.getCircle().getFill() == Color.GREEN && isCurrentSecondLessThanFive()) {
+                    return 8;
+                }
+            } else if (isCurrentSecondLessThanFive()) {
+                if (vehicle_emergency.getCenterInt() > currentPos) {
+                    if (trafficLight.getCircle().getFill() == Color.GREEN && isCurrentSecondLessThanFive()) {
+                        return 8;
+                    }
+                } else {
+                    return 8;
+                }
+            }
+            return -1;
+        } else if (currentPos > 0 && currentPos < cantPositions - 1) {
+            if (positionsTags[currentPos + 1] == 0)
+                return 1;
+        }
+        return -1;
+    }
+
+    private static void moveVehicletuti(Vehicle vehicle, int nextPos, int[] positionsTags, int[] positions, PriorityBlockingQueue vehicles, int cant, int cantChoose) {
+        System.out.println("moveVehicle");
+        int newCenterInt;
+        if (nextPos == 8) {
+            newCenterInt = 9;
+            positionsTags[newCenterInt - 1] = 0;
+        } else {
+            newCenterInt = vehicle.getCenterInt() + nextPos;
+            positionsTags[newCenterInt] = 1;
+
+            if (vehicle.getCenterInt() >= 0) {
+                positionsTags[vehicle.getCenterInt()] = 0;
+            }
+        }
+
+        int Xpos = positions[newCenterInt];
+
+        if (vehicle.getCenterInt() == 2 && vehicle.getCalle().equals("Exit01")) {
+            TranslateTransition moveForward1 = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
+            moveForward1.setToX(positions[2] - 65); // Adjust the value as needed
+
+            RotateTransition rotate = new RotateTransition(Duration.seconds(0.5), vehicle.getImageView());
+            rotate.setByAngle(-90);
+
+            TranslateTransition moveForward2 = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
+            moveForward2.setToY(330);
+
+            SequentialTransition sequentialTransition = new SequentialTransition(moveForward1, rotate, moveForward2);
+            sequentialTransition.setOnFinished(event -> {
+                if(vehicle.isEmergency())
+                    emergency_bool_LeftWest = false;
+
+                ((StackPane) vehicle.getImageView().getParent()).getChildren().remove(vehicle.getImageView());
+                vehicles.remove(vehicle);
+
+                vehiclesWestLeft.remove(vehicle);
+                cantWestLeft--;
+
+                TrafficController_02.removeVehicle(vehicle);
+                positionsTagsWestLeft[newCenterInt] = 0;
+            });
+            sequentialTransition.play();
+        } else if(vehicle.getCenterInt() == 5 && vehicle.getCalle().equals("Exit02")){
+            TranslateTransition moveForward1 = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
+            moveForward1.setToX(positions[5] - 65); // Adjust the value as needed
+
+            RotateTransition rotate = new RotateTransition(Duration.seconds(0.5), vehicle.getImageView());
+            rotate.setByAngle(-90);
+
+            TranslateTransition moveForward2 = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
+            moveForward2.setToY(330);
+
+            SequentialTransition sequentialTransition = new SequentialTransition(moveForward1, rotate, moveForward2);
+            sequentialTransition.setOnFinished(event -> {
+                if(vehicle.isEmergency())
+                    emergency_bool_LeftWest = false;
+
+
+                ((StackPane) vehicle.getImageView().getParent()).getChildren().remove(vehicle.getImageView());
+                vehicles.remove(vehicle);
+
+                vehiclesWestLeft.remove(vehicle);
+                cantWestLeft--;
+
+
+                TrafficController_02.removeVehicle(vehicle);
+                positionsTagsWestLeft[newCenterInt] = 0;
+            });
+            sequentialTransition.play();
+        }else if(vehicle.getCenterInt() == 8 && vehicle.getCalle().equals("Exit03")){
+            TranslateTransition moveForward1 = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
+            moveForward1.setToX(positions[8] - 65);
+
+            RotateTransition rotate = new RotateTransition(Duration.seconds(0.5), vehicle.getImageView());
+            rotate.setByAngle(-90);
+
+            TranslateTransition moveForward2 = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
+            moveForward2.setToY(330);
+
+            SequentialTransition sequentialTransition = new SequentialTransition(moveForward1, rotate, moveForward2);
+            sequentialTransition.setOnFinished(event -> {
+                if(vehicle.isEmergency())
+                    emergency_bool_LeftWest = false;
+
+                ((StackPane) vehicle.getImageView().getParent()).getChildren().remove(vehicle.getImageView());
+                vehicles.remove(vehicle);
+
+                vehiclesWestLeft.remove(vehicle);
+                cantWestLeft--;
+
+
+                TrafficController_02.removeVehicle(vehicle);
+                positionsTagsWestLeft[newCenterInt] = 0;
+            });
+            sequentialTransition.play();
+        }
+
+
+
+        else {
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.8), vehicle.getImageView());
+            translateTransition.setToX(Xpos);
+            translateTransition.setOnFinished(event -> {
+                vehicle.setCenterInt(newCenterInt);
+
+                if (newCenterInt == 9) {
+                    ((StackPane) vehicle.getImageView().getParent()).getChildren().remove(vehicle.getImageView());
+
+                    if (vehicle.isEmergency()) {
+                        if (vehicle.getCalle().equals("East") && vehicle.getDirection().equals("West"))
+                            emergency_bool = false;
+                        else if (vehicle.getCalle().equals("West") && vehicle.getDirection().equals("East"))
+                            emergency_bool_CenterEast = false;
+
+                        vehicles.remove(vehicle);
+                    } else {
+                        vehicles.remove(vehicle);
+                    }
+                }
+            });
+            translateTransition.play();
+        }
+
         if (newCenterInt == 9) {
             if (cantChoose == 0)
                 cantCenterWest--;
@@ -1390,13 +1716,217 @@ public class HelloController implements Initializable {
 
             TrafficController_02.removeVehicle(vehicle);
             System.out.println("Car has reached the final position!");
-        }*/
+        }
 
         System.out.println(Arrays.toString(positions));
         System.out.println(Arrays.toString(positionsTags));
         System.out.println("Pos " + nextPos);
         System.out.println("\n");
     }
+
+
+    private static void moveVehicleleft(Vehicle vehicle, int nextPos, int []positionsTags, int [] positions, PriorityBlockingQueue vehicles, int cant, int cantChoose) {
+
+
+        System.out.println("moveVehicleleft");
+        int newCenterInt;
+        if (nextPos == 8) {
+            newCenterInt = 9;
+            positionsTags[newCenterInt - 1] = 0;
+        } else {
+            newCenterInt = vehicle.getCenterInt() + nextPos;
+            positionsTags[newCenterInt] = 1;
+
+            if (vehicle.getCenterInt() >= 0) {
+                positionsTags[vehicle.getCenterInt()] = 0;
+            }
+        }
+
+        // newCenterInt > 2 && vehicle.getCalle().equals("Exit01")
+        int Xpos = positions[newCenterInt];
+        String calle = vehicle.getCalle();
+            if(newCenterInt > 2 && calle.equals("Exit01") ) {
+
+                if(vehicle.isEmergency())
+                    emergency_bool_LeftWest = false;
+
+                vehiclesWestLeft.remove(vehicle);
+                cantWestLeft--;
+                positionsTags[2] = 0;
+
+
+                TranslateTransition forwardTransition = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
+                forwardTransition.setToX( positions[2] - 60);
+                forwardTransition.setOnFinished(forwardEvent -> {
+                    RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.5), vehicle.getImageView());
+                    rotateTransition.setByAngle(-90);
+                    rotateTransition.setOnFinished(rotateEvent -> {
+                        TranslateTransition forwardAgainTransition = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
+                        forwardAgainTransition.setToY( 330);
+                        forwardAgainTransition.setOnFinished(forwardAgainEvent -> {
+                            ((StackPane) vehicle.getImageView().getParent()).getChildren().remove(vehicle.getImageView());
+                            //vehiclesWestRight.remove(vehicle);
+                            vehicles.remove(vehicle);
+                            TrafficController_02.removeVehicle(vehicle);
+
+
+                            //positionsTags[2] = 0;
+
+                        });
+                        forwardAgainTransition.play();
+                    });
+                    rotateTransition.play();
+                });
+                forwardTransition.play();
+
+            }
+            else if(newCenterInt > 5 && calle.equals("Exit02")) {
+                if(vehicle.isEmergency())
+                    emergency_bool_LeftWest = false;
+
+                vehiclesWestLeft.remove(vehicle);
+                cantWestLeft--;
+                positionsTags[5] = 0;
+
+
+                TranslateTransition forwardTransition = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
+                forwardTransition.setToX( positions[5] - 60);
+                forwardTransition.setOnFinished(forwardEvent -> {
+                    RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.5), vehicle.getImageView());
+                    rotateTransition.setByAngle(-90);
+                    rotateTransition.setOnFinished(rotateEvent -> {
+                        TranslateTransition forwardAgainTransition = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
+                        forwardAgainTransition.setToY( 330);
+                        forwardAgainTransition.setOnFinished(forwardAgainEvent -> {
+                            ((StackPane) vehicle.getImageView().getParent()).getChildren().remove(vehicle.getImageView());
+                            //vehiclesWestRight.remove(vehicle);
+                            vehicles.remove(vehicle);
+                            TrafficController_02.removeVehicle(vehicle);
+
+
+                            //positionsTags[2] = 0;
+
+                        });
+                        forwardAgainTransition.play();
+                    });
+                    rotateTransition.play();
+                });
+                forwardTransition.play();
+
+
+            }
+            else if(newCenterInt > 8 && calle.equals("Exit03")) {
+                if(vehicle.isEmergency())
+                    emergency_bool_LeftWest = false;
+
+                vehiclesWestLeft.remove(vehicle);
+                cantWestLeft--;
+                positionsTags[8] = 0;
+                if(vehicle.isEmergency())
+                    emergency_bool_LeftWest = false;
+
+                vehiclesWestLeft.remove(vehicle);
+                cantWestLeft--;
+                positionsTags[8] = 0;
+
+
+                TranslateTransition forwardTransition = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
+                forwardTransition.setToX( positions[8] - 60); // Adjust the value as needed
+                forwardTransition.setOnFinished(forwardEvent -> {
+                    RotateTransition rotateTransition = new RotateTransition(Duration.seconds(0.5), vehicle.getImageView());
+                    rotateTransition.setByAngle(-90); // Adjust the angle as needed
+                    rotateTransition.setOnFinished(rotateEvent -> {
+                        TranslateTransition forwardAgainTransition = new TranslateTransition(Duration.seconds(0.5), vehicle.getImageView());
+                        forwardAgainTransition.setToY( 330); // Adjust the value as needed
+                        forwardAgainTransition.setOnFinished(forwardAgainEvent -> {
+                            ((StackPane) vehicle.getImageView().getParent()).getChildren().remove(vehicle.getImageView());
+                            //vehiclesWestRight.remove(vehicle);
+                            vehicles.remove(vehicle);
+                            TrafficController_02.removeVehicle(vehicle);
+
+
+                            //positionsTags[2] = 0;
+
+                        });
+                        forwardAgainTransition.play();
+                    });
+                    rotateTransition.play();
+                });
+                forwardTransition.play();
+
+
+            }
+            else{
+            TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.8), vehicle.getImageView());
+            translateTransition.setToX(Xpos);
+            translateTransition.setOnFinished(event -> {
+                vehicle.setCenterInt(newCenterInt);
+
+                if (newCenterInt == 9) {
+                    ((StackPane) vehicle.getImageView().getParent()).getChildren().remove(vehicle.getImageView());
+
+                    if(vehicle.isEmergency()) {
+
+                        if(vehicle.getCalle().equals("East") && vehicle.getDirection().equals("West"))
+                            emergency_bool = false;
+                        else if(vehicle.getCalle().equals("West") && vehicle.getDirection().equals("East"))
+                            emergency_bool_CenterEast = false;
+
+
+
+                        vehicles.remove(vehicle);
+
+                    }else{
+                        vehicles.remove(vehicle);
+
+                    }
+
+
+                }
+            });
+            translateTransition.play();
+
+            if (newCenterInt == 9) {
+                // cant--;
+                if(cantChoose == 0)
+                    cantCenterWest--;
+                else
+                    cantCenterCenterEast--;
+
+
+
+                TrafficController_02.removeVehicle(vehicle);
+            }
+
+            System.out.println(Arrays.toString(positions));
+            System.out.println(Arrays.toString(positionsTags));
+            System.out.println("Pos " + nextPos);
+            System.out.println("\n");
+        }
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
