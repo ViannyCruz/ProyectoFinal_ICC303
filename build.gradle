@@ -22,11 +22,13 @@ targetCompatibility = '21'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+    options.release = 21
+
 }
 
 application {
     mainModule = 'com.example.proyectofinal_icc303'
-    mainClass = 'com.example.proyectofinal_icc303.HelloApplication'
+    mainClass = 'com.example.proyectofinal_icc303.Applicacion'
 }
 
 javafx {
@@ -59,4 +61,10 @@ jlink {
 
 jlinkZip {
     group = 'distribution'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
