@@ -21,7 +21,7 @@ public class EscenarioAvance extends Application {
         StackPane root = new StackPane();
         Scene scene = new Scene(root, 800, 800);
 
-        Image image = new Image("escenario2/Fondo.png");
+        Image image = new Image("com/example/proyectofinal_icc303/Fondo.png");
         ImageView imageView = new ImageView(image);
         root.getChildren().add(imageView);
 

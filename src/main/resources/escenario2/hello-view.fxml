@@ -20,7 +20,7 @@
                 <Button fx:id="btnLeftTurnWest"  onAction="#handleCreateVehicleCenterWest" text="Left Turn West " GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
 
                 <Button fx:id="btnRightTurnEast"    onAction="#handleCreateVehicleCenterWest" text="Right Turn East" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                <Button fx:id="btnLeftTurnWestEast" onAction="#handleCreateVehicleCenterWest" text="Left Turn East " GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                <Button fx:id="btnLeftTurnEast" onAction="#handleCreateVehicleCenterWest" text="Left Turn East " GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
 
                 <RadioButton fx:id="exit01" mnemonicParsing="false" text="Exit 01" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1"/>
                 <RadioButton fx:id="exit02" mnemonicParsing="false" text="Exit 02" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1"/>
