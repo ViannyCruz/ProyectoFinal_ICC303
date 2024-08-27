@@ -1,4 +1,4 @@
-package com.example.proyectofinal_icc303;
+package escenario1;
 
 import java.util.concurrent.PriorityBlockingQueue;
 
@@ -11,6 +11,10 @@ public class Intersection {
         this.id = id;
         this.righTurnAllowed = righTurnAllowed;
         this.vehicleQueue = new PriorityBlockingQueue<>(); // Aqui el profesor puso otra cosa incompleta, agregarla bien
+    }
+
+    public void setVehicles(PriorityBlockingQueue<Vehicle> vehicles) {
+        this.vehicleQueue = vehicles;
     }
 
     public void addVehicle(Vehicle vehicle) {
