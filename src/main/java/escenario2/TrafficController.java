@@ -97,9 +97,9 @@ public class TrafficController {
                 PauseTransition pause = new PauseTransition(Duration.millis(1));
                 pause.setOnFinished(event -> {
 
-                    HelloController.moveNorth(vehicle);
+                    //HelloController.moveNorth(vehicle);
 
-                    HelloController.updatePositionsNorth();
+                  //  HelloController.updatePositionsNorth();
 
                     crossingWestOccupied = false; // Libera el cruce
                     synchronized (this) {
@@ -127,7 +127,7 @@ public class TrafficController {
                 pause.setOnFinished(event -> {
 
 
-                        HelloController.moveNorthUTurn(vehicle);
+                 //       HelloController.moveNorthUTurn(vehicle);
 
 
                     crossingNorthOccupied = false;
@@ -157,7 +157,7 @@ public class TrafficController {
                 pause.setOnFinished(event -> {
 
 
-                    HelloController.moveNorthRightTurn(vehicle);
+                 //   HelloController.moveNorthRightTurn(vehicle);
 
 
                     crossingNorthOccupied = false;
@@ -188,7 +188,7 @@ public class TrafficController {
                 pause.setOnFinished(event -> {
 
 
-                    HelloController.moveNorthLeftTurn(vehicle);
+                 //   HelloController.moveNorthLeftTurn(vehicle);
 
 
                     crossingNorthOccupied = false;
@@ -223,9 +223,9 @@ public class TrafficController {
                 PauseTransition pause = new PauseTransition(Duration.millis(1));
                 pause.setOnFinished(event -> {
 
-                    HelloController.moveSouth(vehicle);
+                //    HelloController.moveSouth(vehicle);
 
-                    HelloController.updatePositionsNorth();
+                //    HelloController.updatePositionsNorth();
 
                     crossingEastOccupied = false; // Libera el cruce
                     synchronized (this) {
@@ -253,7 +253,7 @@ public class TrafficController {
                 pause.setOnFinished(event -> {
 
 
-                    HelloController.moveSouthUTurn(vehicle);
+                //    HelloController.moveSouthUTurn(vehicle);
 
 
                     crossingSouthOccupied = false;
@@ -283,7 +283,7 @@ public class TrafficController {
                 pause.setOnFinished(event -> {
 
 
-                    HelloController.moveSouthRightTurn(vehicle);
+                  //  HelloController.moveSouthRightTurn(vehicle);
 
 
                     crossingSouthOccupied = false;
@@ -314,7 +314,7 @@ public class TrafficController {
                 pause.setOnFinished(event -> {
 
 
-                    HelloController.moveSouthLeftTurn(vehicle);
+                  //  HelloController.moveSouthLeftTurn(vehicle);
 
 
                     crossingNorthOccupied = false;
@@ -346,9 +346,9 @@ public class TrafficController {
                 PauseTransition pause = new PauseTransition(Duration.millis(1));
                 pause.setOnFinished(event -> {
 
-                    HelloController.moveEast(vehicle);
+                   // HelloController.moveEast(vehicle);
 
-                    HelloController.updatePositionsEast();
+                 //   HelloController.updatePositionsEast();
 
                     crossingNorthOccupied = false; // Libera el cruce
                     synchronized (this) {
@@ -378,7 +378,7 @@ public class TrafficController {
                 pause.setOnFinished(event -> {
 
 
-                    HelloController.moveEastUTurn(vehicle);
+                //    HelloController.moveEastUTurn(vehicle);
 
 
                     crossingSouthOccupied = false;
@@ -409,7 +409,7 @@ public class TrafficController {
                 pause.setOnFinished(event -> {
 
 
-                    HelloController.moveEastRightTurn(vehicle);
+               //     HelloController.moveEastRightTurn(vehicle);
 
 
                     crossingNorthOccupied = false;
@@ -441,7 +441,7 @@ public class TrafficController {
                 pause.setOnFinished(event -> {
 
 
-                    HelloController.moveEastLeftTurn(vehicle);
+               //     HelloController.moveEastLeftTurn(vehicle);
 
 
                     crossingNorthOccupied = false;
@@ -476,9 +476,9 @@ public class TrafficController {
                 PauseTransition pause = new PauseTransition(Duration.millis(1));
                 pause.setOnFinished(event -> {
 
-                    HelloController.moveWest(vehicle);
+                //    HelloController.moveWest(vehicle);
 
-                    HelloController.updatePositionsWest();
+               //     HelloController.updatePositionsWest();
 
                     crossingSouthOccupied = false; // Libera el cruce
                     synchronized (this) {
@@ -508,7 +508,7 @@ public class TrafficController {
                 pause.setOnFinished(event -> {
 
 
-                    HelloController.moveWestUTurn(vehicle);
+              //      HelloController.moveWestUTurn(vehicle);
 
 
                     crossingSouthOccupied = false;
@@ -539,7 +539,7 @@ public class TrafficController {
                 pause.setOnFinished(event -> {
 
 
-                    HelloController.moveWestRightTurn(vehicle);
+///HelloController.moveWestRightTurn(vehicle);
 
 
                     crossingSouthOccupied = false;
@@ -572,7 +572,7 @@ public class TrafficController {
                 pause.setOnFinished(event -> {
 
 
-                    HelloController.moveWestLeftTurn(vehicle);
+              //      HelloController.moveWestLeftTurn(vehicle);
 
 
                     crossingNorthOccupied = false;

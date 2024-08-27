@@ -8,4 +8,11 @@ module com.example.proyectofinal_icc {
 
     opens escenario1 to javafx.fxml;
     exports escenario1;
+
+    opens escenario2 to javafx.fxml;
+    exports escenario2;
+
+    opens com.example to javafx.fxml;
+    exports com.example to javafx.graphics;
+
 }
